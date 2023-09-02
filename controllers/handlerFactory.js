@@ -56,5 +56,22 @@ exports.getOne = (Model, popOptions) =>
 
 exports.getAll = Model => 
   catchAsync(async (req, res, next) => {
-    // TODO:
+    // TODO: If nested routes are needed, some additional code will be necessary.
+
+    const features = new APIFeatures(Model.find(filter), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+
+    const doc = await features.query;
+
+    res.status(200).json({
+      status: 'success',
+      requestedAt: req.requestTime,
+      results: doc.length,
+      data: {
+        data: doc,
+      },
+    });
   });
