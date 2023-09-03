@@ -67,7 +67,7 @@ app.use((req, res, next) => {
 });
 
 // ROUTES
-// TODO: add routes
+app.use('/api/v1/companies', companyRouter);
 
 // Catch all uncaught routes
 app.all('*', (req, res, next) => {
