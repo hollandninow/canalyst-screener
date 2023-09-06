@@ -10,6 +10,9 @@ const cookieParser = require('cookie-parser');
 const compression = require('compression');
 const cors = require('cors');
 
+const companyRouter = require('./routers/companyRouter');
+const userRouter = require('./routers/userRouter');
+
 const app = express();
 
 // For heroku
@@ -68,6 +71,7 @@ app.use((req, res, next) => {
 
 // ROUTES
 app.use('/api/v1/companies', companyRouter);
+app.use('/api/v1/users', userRouter);
 
 // Catch all uncaught routes
 app.all('*', (req, res, next) => {
