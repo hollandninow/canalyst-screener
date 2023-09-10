@@ -8,7 +8,7 @@ const router = express.Router();
 router
   .route('/')
   .get(companyController.getAllCompanies)
-  .post(companyController.createWord);
+  .post(companyController.createCompany);
 
 router
   .route('/:id')
