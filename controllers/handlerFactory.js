@@ -1,4 +1,4 @@
-// const APIFeatures = require('../utils/apiFeatures');
+const APIFeatures = require('../utils/apiFeatures');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
@@ -57,6 +57,7 @@ exports.getOne = (Model, popOptions) =>
 exports.getAll = Model => 
   catchAsync(async (req, res, next) => {
     // TODO: If nested routes are needed, some additional code will be necessary.
+    let filter = {};
 
     const features = new APIFeatures(Model.find(filter), req.query)
       .filter()
