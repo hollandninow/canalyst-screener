@@ -1,19 +1,29 @@
 const express = require('express');
 const companyController = require('../controllers/companyController');
+const authController = require('../controllers/authController');
 
 const router = express.Router();
 
-// TODO: add protect() and restrictTo() middlewares after implementing authController
+router.use(authController.protect);
 
 router
   .route('/')
   .get(companyController.getAllCompanies)
-  .post(companyController.createCompany);
+  .post(
+    authController.restrictTo('admin'), 
+    companyController.createCompany
+    );
 
 router
   .route('/:id')
   .get(companyController.getCompany)
-  .patch(companyController.updateCompany)
-  .delete(companyController.deleteCompany);
+  .patch(
+    authController.restrictTo('admin'), 
+    companyController.updateCompany
+    )
+  .delete(
+    authController.restrictTo('admin'), 
+    companyController.deleteCompany
+    );
 
 module.exports = router;
