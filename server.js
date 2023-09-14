@@ -13,7 +13,7 @@ process.on('uncaughtException', err => {
 const app = require('./app');
 
 let DB = '';
-if (process.env.NODE_ENV === 'testing') {
+if (process.env.NODE_ENV === 'test') {
   DB = process.env.DATABASE_TEST.replace(
       '<password>', 
       process.env.DATABASE_PASSWORD
