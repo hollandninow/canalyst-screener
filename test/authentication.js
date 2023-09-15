@@ -18,7 +18,7 @@ describe('authentication', () => {
         .post('api/v1/users/login')
         .send(testUser)
         .expect(200)
-        .then( res => {
+        .then(res => {
           testUserToken = res.body.token;
 
           expect(res.body.data.user.email).to.be.equal(testUser.email);
@@ -30,6 +30,17 @@ describe('authentication', () => {
           .catch(err => done(err));
     });
 
+    it('should not log in when provided incorrect credentials for an existing user', done => {
+      testUser = testUsers.adminTestUserBadPassword;
+
+      request
+        .post('api/v1/users/login')
+        .send(testUser)
+        .expect(401)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+
     it('should log out the user', done => {
       request
         .get('api/v1/users/logout')
@@ -39,4 +50,5 @@ describe('authentication', () => {
         .catch(err => done(err));
     });
   });
+  
 });
