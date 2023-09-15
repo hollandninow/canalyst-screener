@@ -41,6 +41,17 @@ describe('authentication', () => {
         .catch(err => done(err));
     });
 
+    it('should not log in when provided credentials for a non-existent user', done => {
+      testUser = testUsers.testUserFictional;
+
+      request
+        .post('api/v1/users/login')
+        .send(testUser)
+        .expect(401)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+
     it('should log out the user', done => {
       request
         .get('api/v1/users/logout')
