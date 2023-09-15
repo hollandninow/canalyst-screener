@@ -55,3 +55,8 @@ exports.testUserMismatchPasswords = {
   password: 'test12345',
   passwordConfirm: 'test1234',
 }
+
+exports.testUserFictional = {
+  email: 'aijsdoiajda@ioajsdoijsa.oiujaosdjsa',
+  password: 'simplepassword',
+}
