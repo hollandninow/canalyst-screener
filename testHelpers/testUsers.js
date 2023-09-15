@@ -11,6 +11,11 @@ exports.adminTestUserBadPassword = {
   password: 'helloworld',
 }
 
+exports.permanentTestUser = {
+  email: 'permtest@gmail.com',
+  password: 'test1234',
+}
+
 exports.testUser = {
   name: 'Test',
   email: 'test@gmail.com',
