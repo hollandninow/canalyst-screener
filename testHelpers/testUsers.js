@@ -6,6 +6,11 @@ exports.adminTestUser = {
   password: process.env.ADMIN_TEST_PASSWORD,
 }
 
+exports.adminTestUserBadPassword = {
+  email: process.env.ADMIN_TEST,
+  password: 'helloworld',
+}
+
 exports.testUser = {
   name: 'Test',
   email: 'test@gmail.com',
