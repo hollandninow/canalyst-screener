@@ -38,7 +38,7 @@ const companySchema = new mongoose.Schema(
       trim: true,
       minLength: [2, 'Country code must be 2 characters.'],
       maxLength: [2, 'Country code must be 2 characters.'],
-      uppercase: true,
+      lowerCase: true,
     },
     version: {
       type: String,
