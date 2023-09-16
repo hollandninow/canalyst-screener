@@ -141,4 +141,53 @@ describe('authentication', () => {
         .catch(err => done(err));
     });
   });
+
+  describe('accessing protected /companies routes while not logged in', () => {
+    it('GET /companies should return 401', done => {
+      request
+        .get('api/v1/companies/')
+        .send()
+        .expect(401)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+
+    it('GET /companies/:id should return 401', done => {
+      request
+        .get('api/v1/companies/6505e90c570f2ede901a970e')
+        .send()
+        .expect(401)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+
+    it('POST /companies should return 401', done => {
+      request
+        .post('api/v1/companies/')
+        .send(testUsers.testUser)
+        .expect(401)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+
+    it('PATCH /companies/:id should return 401', done => {
+      request
+        .patch('api/v1/companies/6505e90c570f2ede901a970e')
+        .send({
+          name: 'New Test Company'
+        })
+        .expect(401)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+
+    it('DELETE /companies/:id should return 401', done => {
+      request
+        .delete('api/v1/companies/6505e90c570f2ede901a970e')
+        .send()
+        .expect(401)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+  });
 });
