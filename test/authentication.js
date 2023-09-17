@@ -2,7 +2,7 @@ const supertest = require('supertest');
 const { expect } = require('chai');
 const dotenv = require('dotenv');
 const testUsers = require('../testHelpers/testUsers');
-const { login } = require('../testHelpers/login');
+const testCompanies = require('../testHelpers/testCompanies');
 
 dotenv.config( { path: './config.env' });
 
@@ -75,7 +75,7 @@ describe('authentication', () => {
 
     it('GET /users/:id should return 401', done => {
       request
-        .get('api/v1/users/6503ba4bda5433587ff7c0cb')
+        .get(`api/v1/users/${testUsers.permanentTestUserId}`)
         .send()
         .expect(401)
         .then(res => done())
@@ -93,7 +93,7 @@ describe('authentication', () => {
 
     it('PATCH /users/:id should return 401', done => {
       request
-        .patch('api/v1/users/6503ba4bda5433587ff7c0cb')
+        .patch(`api/v1/users/${testUsers.permanentTestUserId}`)
         .send({
           name: 'testtest'
         })
@@ -104,7 +104,7 @@ describe('authentication', () => {
 
     it('DELETE /users/:id should return 401', done => {
       request
-        .delete('api/v1/users/6503ba4bda5433587ff7c0cb')
+        .delete(`api/v1/users/${testUsers.permanentTestUserId}`)
         .send()
         .expect(401)
         .then(res => done())
@@ -155,7 +155,7 @@ describe('authentication', () => {
 
     it('GET /companies/:id should return 401', done => {
       request
-        .get('api/v1/companies/6505e90c570f2ede901a970e')
+        .get(`api/v1/companies/${testCompanies.permanentTestCompanyId}`)
         .send()
         .expect(401)
         .then(res => done())
@@ -173,7 +173,7 @@ describe('authentication', () => {
 
     it('PATCH /companies/:id should return 401', done => {
       request
-        .patch('api/v1/companies/6505e90c570f2ede901a970e')
+        .patch(`api/v1/companies/${testCompanies.permanentTestCompanyId}`)
         .send({
           name: 'New Test Company'
         })
@@ -184,7 +184,7 @@ describe('authentication', () => {
 
     it('DELETE /companies/:id should return 401', done => {
       request
-        .delete('api/v1/companies/6505e90c570f2ede901a970e')
+        .delete(`api/v1/companies/${testCompanies.permanentTestCompanyId}`)
         .send()
         .expect(401)
         .then(res => done())
@@ -192,7 +192,7 @@ describe('authentication', () => {
     });
   });
 
-  describe('accessing restricted to admin /users routes while logged in as normal user', () => {
+  describe('accessing restricted -to-admin /users routes while logged in as normal user', () => {
     beforeEach(() => 
         request
           .post('api/v1/users/login')
@@ -214,7 +214,7 @@ describe('authentication', () => {
 
     it('GET /users/:id should return 403 when logged in as normal user', done => {
       request
-        .post('api/v1/users/6503ba4bda5433587ff7c0cb')
+        .post(`api/v1/users/${testUsers.permanentTestUserId}`)
         .set('Authorization', `Bearer ${testUserToken}`)
         .expect(403)
         .then(res => done())
@@ -233,7 +233,7 @@ describe('authentication', () => {
 
     it('PATCH /users/:id should return 403 when logged in as normal user', done => {
       request
-        .patch('api/v1/users/6503ba4bda5433587ff7c0cb')
+        .patch(`api/v1/users/${testUsers.permanentTestUserId}`)
         .send({
           name: 'new name',
         })
@@ -245,7 +245,50 @@ describe('authentication', () => {
 
     it('DELETE /users/:id should return 403 when logged in as normal user', done => {
       request
-        .delete('api/v1/users/6503ba4bda5433587ff7c0cb')
+        .delete(`api/v1/users/${testUsers.permanentTestUserId}`)
+        .set('Authorization', `Bearer ${testUserToken}`)
+        .expect(403)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+  });
+
+  describe('accessing restricted-to-admin /companies routes while logged in as normal user', () => {
+    beforeEach(() => 
+        request
+          .post('api/v1/users/login')
+          .send(testUsers.permanentTestUser)
+          .then(res => {
+            testUserToken = res.body.token;
+          })
+
+      );
+      
+    it('POST /companies should return 403 when logged in as normal user', done => {
+      request
+        .post('api/v1/companies/')
+        .send(testUsers.testUser)
+        .set('Authorization', `Bearer ${testUserToken}`)
+        .expect(403)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+
+    it('PATCH /companies/:id should return 403 when logged in as normal user', done => {
+      request
+        .patch(`api/v1/companies/${testCompanies.permanentTestCompanyId}`)
+        .send({
+          name: 'new name',
+        })
+        .set('Authorization', `Bearer ${testUserToken}`)
+        .expect(403)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+
+    it('DELETE /companies/:id should return 403 when logged in as normal user', done => {
+      request
+        .delete(`api/v1/companies/${testCompanies.permanentTestCompanyId}`)
         .set('Authorization', `Bearer ${testUserToken}`)
         .expect(403)
         .then(res => done())

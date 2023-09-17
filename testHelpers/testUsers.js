@@ -1,6 +1,9 @@
 const dotenv = require('dotenv');
 dotenv.config( { path: './config.env' });
 
+exports.permanentTestUserId = '6503ba4bda5433587ff7c0cb';
+exports.adminTestUserId = '65011e286842ba55e2680984';
+
 exports.adminTestUser = {
   email: process.env.ADMIN_TEST,
   password: process.env.ADMIN_TEST_PASSWORD,

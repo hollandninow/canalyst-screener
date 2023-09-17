@@ -1,3 +1,5 @@
+exports.permanentTestCompanyId = '6505e90c570f2ede901a970e';
+
 exports.testCompany = {
   name: 'The Test Company',
   csin: '1Q2W3E4R5T',
