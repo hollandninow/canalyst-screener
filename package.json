@@ -9,7 +9,7 @@
     "start:dev": "SET NODE_ENV=development& nodemon server.js",
     "start:prod": "SET NODE_ENV=production& nodemon server.js",
     "start:test": "SET NODE_ENV=test& nodemon server.js",
-    "test": "NODE_ENV=testing mocha --recursive --exit --timeout 10000"
+    "test": "NODE_ENV=test mocha --recursive --exit --timeout 10000"
   },
   "author": "Holland Ninow",
   "license": "ISC",
