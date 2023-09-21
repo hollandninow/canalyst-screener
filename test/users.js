@@ -57,16 +57,30 @@ describe('users', () => {
         .set('Authorization', `Bearer ${adminToken}`)
         .send(testUsers.testUser)
         .then(res => {
+          const { data } = res.body.data;
+          testUserId = data._id;
+
           request
             .post('api/v1/users/')
             .set('Authorization', `Bearer ${adminToken}`)
             .send(testUsers.testUser)
             .expect(400)
-            .then(res => done())
+            .then(res => 
+                request
+                  .delete(`api/v1/users/${testUserId}`)
+                  .set('Authorization', `Bearer ${adminToken}`)
+                  .expect(204)
+                  .then(res => {
+                    testUserId = undefined;
+                    done();
+                  })
+              )
             .catch(err => done(err));
         })
         .catch(err => done(err));
     });
+
+
     
     
 
