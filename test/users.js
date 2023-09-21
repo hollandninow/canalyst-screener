@@ -80,10 +80,15 @@ describe('users', () => {
         .catch(err => done(err));
     });
 
-
-    
-    
-
+    it('should thrown an error when creating a user with no name', () => {
+      request
+        .post('api/v1/users/')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testUsers.testUserNoName)
+        .expect(400)
+        .then(res => done())
+        .catch(err => done(err));
+    });
   });
 
   describe('GET /users', () => {
