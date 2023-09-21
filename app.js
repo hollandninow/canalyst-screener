@@ -12,6 +12,7 @@ const cors = require('cors');
 
 const companyRouter = require('./routers/companyRouter');
 const userRouter = require('./routers/userRouter');
+const globalErrorHandler = require('./controllers/errorController');
 
 const app = express();
 
@@ -78,6 +79,6 @@ app.all('*', (req, res, next) => {
   // TODO: add app error
 });
 
-// app.use(globalErrorHandler);
+app.use(globalErrorHandler);
 
 module.exports = app;
