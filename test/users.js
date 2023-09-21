@@ -50,6 +50,23 @@ describe('users', () => {
         })
         .catch(err => done(err));
     });
+
+    it('should throw an error when a user is created with a previously used email', done => {
+      request
+        .post('api/v1/users/')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testUsers.testUser)
+        .then(res => {
+          request
+            .post('api/v1/users/')
+            .set('Authorization', `Bearer ${adminToken}`)
+            .send(testUsers.testUser)
+            .expect(400)
+            .then(res => done())
+            .catch(err => done(err));
+        })
+        .catch(err => done(err));
+    });
     
     
 
