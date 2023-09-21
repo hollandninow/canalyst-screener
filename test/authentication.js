@@ -4,11 +4,11 @@ const dotenv = require('dotenv');
 const testUsers = require('../testHelpers/testUsers');
 const testCompanies = require('../testHelpers/testCompanies');
 
-dotenv.config( { path: './config.env' });
+dotenv.config({ path: './config.env' });
 
 const request = supertest(`http://127.0.0.1:${process.env.PORT}/`);
 
-let testUser, testUserId, testUserToken, adminToken;
+let testUser, testUserToken;
 
 describe('authentication', () => {
   describe('log in and log out', () => {
