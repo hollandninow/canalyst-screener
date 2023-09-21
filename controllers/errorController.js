@@ -75,11 +75,10 @@ module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
-  if (process.env.NODE_ENV === 'development' ||process.env.NODE_ENV === 'test') {
+  if (process.env.NODE_ENV === 'development') {
     sendErrorDev(err, req, res);
-  } else if (process.env.NODE_ENV === 'production') {
+  } else if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
     let error = Object.create(err);
-    // TODO: add error cases
     if (error.name === 'CastError') error = handleCastErrorDB(error);
     if (error.code === 11000) error = handleDuplicateFieldsDB(error);
     if (error._message === 'Validation failed') error = handleValidationErrorDB(error);
