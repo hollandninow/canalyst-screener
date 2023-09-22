@@ -142,7 +142,63 @@ describe('users', () => {
   });
 
   describe('GET /users', () => {
+    before(() => 
+    request
+      .post('api/v1/users/login')
+      .send(testUsers.adminTestUser)
+      .then(res => {
+        adminToken = res.body.token;
+      })
+    );
 
+    it('GET /users should return all users', done => {
+      request
+        .get('api/v1/users/')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .expect(200)
+        .then(res => {
+          const { data } = res.body.data;
+
+          expect(data.length).to.be.equal(2); // perm test user and admin
+          expect(data[0].name).to.be.equal(testUsers.permanentTestUser.name);
+          expect(data[0].email).to.be.equal(testUsers.permanentTestUser.email);
+          expect(data[0].role).to.be.equal(testUsers.permanentTestUser.role);
+          expect(data[0]._id).to.be.equal(testUsers.permanentTestUserId);
+          expect(data[1].name).to.be.equal(testUsers.adminTestUser.name);
+          expect(data[1].email).to.be.equal(testUsers.adminTestUser.email);
+          expect(data[1].role).to.be.equal(testUsers.adminTestUser.role);
+          expect(data[1]._id).to.be.equal(testUsers.adminTestUserId);
+
+          done();
+        })
+        .catch(err => done(err));
+    });
+
+    it('GET /users/:id should return a user', done => {
+      request
+        .get(`api/v1/users/${testUsers.permanentTestUserId}`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .expect(200)
+        .then(res => {
+          const { data } = res.body.data;
+
+          expect(data.name).to.be.equal(testUsers.permanentTestUser.name);
+          expect(data.email).to.be.equal(testUsers.permanentTestUser.email);
+          expect(data.role).to.be.equal(testUsers.permanentTestUser.role);
+
+          done();
+        })
+        .catch(err => done(err));
+    });
+
+    it('GET /users/:id should throw an error when provided a fake id', done => {
+      request
+        .get(`api/v1/users/${testUsers.fakeTestUserId}`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .expect(400)
+        .then(res => done())
+        .catch(err => done(err));
+    });
   });
 
   describe('PATCH /users', () => {
