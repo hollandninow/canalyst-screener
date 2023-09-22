@@ -51,7 +51,7 @@ describe('users', () => {
         .catch(err => done(err));
     });
 
-    it('should throw an error when a user is created with a previously used email', done => {
+    it('should throw 400 error when a user is created with a previously used email', done => {
       request
         .post('api/v1/users/')
         .set('Authorization', `Bearer ${adminToken}`)
@@ -80,7 +80,7 @@ describe('users', () => {
         .catch(err => done(err));
     });
 
-    it('should thrown an error when creating a user with no name', () => {
+    it('should thrown 400 error when creating a user with no name', () => {
       request
         .post('api/v1/users/')
         .set('Authorization', `Bearer ${adminToken}`)
@@ -90,7 +90,7 @@ describe('users', () => {
         .catch(err => done(err));
     });
 
-    it('should thrown an error when creating a user with no email', () => {
+    it('should thrown 400 error when creating a user with no email', () => {
       request
         .post('api/v1/users/')
         .set('Authorization', `Bearer ${adminToken}`)
@@ -100,7 +100,7 @@ describe('users', () => {
         .catch(err => done(err));
     });
 
-    it('should thrown an error when creating a user with an invalid email', () => {
+    it('should thrown 400 error when creating a user with an invalid email', () => {
       request
         .post('api/v1/users/')
         .set('Authorization', `Bearer ${adminToken}`)
@@ -110,7 +110,7 @@ describe('users', () => {
         .catch(err => done(err));
     });
 
-    it('should thrown an error when creating a user with no password', () => {
+    it('should thrown 400 error when creating a user with no password', () => {
       request
         .post('api/v1/users/')
         .set('Authorization', `Bearer ${adminToken}`)
@@ -120,7 +120,7 @@ describe('users', () => {
         .catch(err => done(err));
     });
 
-    it('should thrown an error when creating a user with no password confirm', () => {
+    it('should thrown 400 error when creating a user with no password confirm', () => {
       request
         .post('api/v1/users/')
         .set('Authorization', `Bearer ${adminToken}`)
@@ -130,7 +130,7 @@ describe('users', () => {
         .catch(err => done(err));
     });
 
-    it('should thrown an error when creating a user with mismatched password and password confirm', () => {
+    it('should thrown 400 error when creating a user with mismatched password and password confirm', () => {
       request
         .post('api/v1/users/')
         .set('Authorization', `Bearer ${adminToken}`)
@@ -191,7 +191,7 @@ describe('users', () => {
         .catch(err => done(err));
     });
 
-    it('GET /users/:id should throw an error when provided a fake id', done => {
+    it('GET /users/:id should throw 400 error when provided a fake id', done => {
       request
         .get(`api/v1/users/${testUsers.fakeTestUserId}`)
         .set('Authorization', `Bearer ${adminToken}`)
