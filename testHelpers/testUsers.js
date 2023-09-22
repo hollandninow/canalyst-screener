@@ -3,6 +3,7 @@ dotenv.config( { path: './config.env' });
 
 exports.permanentTestUserId = '6503ba4bda5433587ff7c0cb';
 exports.adminTestUserId = '65011e286842ba55e2680984';
+exports.adminFakeUserId = 'i980u23j12iu3h123o9871y23o12uh3o';
 
 exports.adminTestUser = {
   name: 'Admin',
