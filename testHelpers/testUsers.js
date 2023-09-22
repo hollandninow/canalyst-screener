@@ -5,8 +5,11 @@ exports.permanentTestUserId = '6503ba4bda5433587ff7c0cb';
 exports.adminTestUserId = '65011e286842ba55e2680984';
 
 exports.adminTestUser = {
+  name: 'Admin',
   email: process.env.ADMIN_TEST,
   password: process.env.ADMIN_TEST_PASSWORD,
+  passwordConfirm: process.env.ADMIN_TEST_PASSWORD,
+  role: 'admin',
 }
 
 exports.adminTestUserBadPassword = {
@@ -15,8 +18,11 @@ exports.adminTestUserBadPassword = {
 }
 
 exports.permanentTestUser = {
+  name: 'Permanent TestUser',
   email: 'permtest@gmail.com',
   password: 'test1234',
+  passwordConfirm: 'test1234',
+  role: 'user',
 }
 
 exports.testUser = {
