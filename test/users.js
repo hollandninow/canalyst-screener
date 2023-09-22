@@ -89,6 +89,56 @@ describe('users', () => {
         .then(res => done())
         .catch(err => done(err));
     });
+
+    it('should thrown an error when creating a user with no email', () => {
+      request
+        .post('api/v1/users/')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testUsers.testUserNoEmail)
+        .expect(400)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+
+    it('should thrown an error when creating a user with an invalid email', () => {
+      request
+        .post('api/v1/users/')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testUsers.testUserMalformedEmail)
+        .expect(400)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+
+    it('should thrown an error when creating a user with no password', () => {
+      request
+        .post('api/v1/users/')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testUsers.testUserNoPassword)
+        .expect(400)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+
+    it('should thrown an error when creating a user with no password confirm', () => {
+      request
+        .post('api/v1/users/')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testUsers.testUserNoPasswordConfirm)
+        .expect(400)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+
+    it('should thrown an error when creating a user with mismatched password and password confirm', () => {
+      request
+        .post('api/v1/users/')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testUsers.testUserMismatchPasswords)
+        .expect(400)
+        .then(res => done())
+        .catch(err => done(err));
+    });
   });
 
   describe('GET /users', () => {
