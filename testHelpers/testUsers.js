@@ -75,3 +75,8 @@ exports.testUserFictional = {
   email: 'aijsdoiajda@ioajsdoijsa.oiujaosdjsa',
   password: 'simplepassword',
 }
+
+exports.updateNameAndEmail = {
+  name: 'New Name',
+  email: 'newemail@gmail.com',
+}
