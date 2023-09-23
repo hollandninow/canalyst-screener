@@ -202,7 +202,52 @@ describe('users', () => {
   });
 
   describe('PATCH /users', () => {
+    before(() => 
+      request
+        .post('api/v1/users/login')
+        .send(testUsers.adminTestUser)
+        .then(res => {
+          adminToken = res.body.token;
+        })
+    );
 
+    beforeEach(() =>
+      request
+        .post('api/v1/users/')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testUsers.testUser)
+        .then(res => {
+          const { data } = res.body.data;
+          testUserId = data._id;
+        })
+    );
+
+    afterEach(() => 
+      request
+        .delete(`api/v1/users/${testUserId}`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .then(res => {
+          testUserId = undefined;
+        })
+    );
+
+    it('should update a user when provided new name, email, and role', done => {
+      request
+        .patch(`api/v1/users/${testUserId}`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testUsers.updateNameAndEmail)
+        .expect(200)
+        .then(res => {
+          const { data } = res.body.data;
+          testUserId = data._id;
+
+          expect(data.name).to.be.equal(testUsers.updateNameAndEmail.name);
+          expect(data.email).to.be.equal(testUsers.updateNameAndEmail.email);
+
+          done();
+        })
+        .catch(err => done(err));
+    });
   });
 
   describe('DELETE /users', () => {
