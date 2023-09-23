@@ -85,3 +85,7 @@ exports.updateNameAndEmail = {
 exports.updatePassword = {
   password: 'newpass1234',
 }
+
+exports.updateActiveFalse = {
+  active: false,
+}

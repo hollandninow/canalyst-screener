@@ -231,7 +231,7 @@ describe('users', () => {
         })
     );
 
-    it('should update a user when provided new name, email, and role', done => {
+    it('should update a user\'s name, email, and role', done => {
       request
         .patch(`api/v1/users/${testUserId}`)
         .set('Authorization', `Bearer ${adminToken}`)
@@ -250,7 +250,7 @@ describe('users', () => {
         .catch(err => done(err));
     });
 
-    it('should update a user when provided a new password', done => {
+    it('should update user\'s password', done => {
       request
         .patch(`api/v1/users/${testUserId}`)
         .set('Authorization', `Bearer ${adminToken}`)
@@ -261,6 +261,22 @@ describe('users', () => {
           testUserId = data._id;
 
           expect(data.password).to.be.undefined;
+          done();
+        })
+        .catch(err => done(err));
+    });
+
+    it('should update user\'s active status', done => {
+      request
+        .patch(`api/v1/users/${testUserId}`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testUsers.updateActiveFals)
+        .expect(200)
+        .then(res => {
+          const { data } = res.body.data;
+          testUserId = data._id;
+
+          expect(data.active).to.be.undefined;
           done();
         })
         .catch(err => done(err));
