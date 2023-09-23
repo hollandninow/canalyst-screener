@@ -79,4 +79,5 @@ exports.testUserFictional = {
 exports.updateNameAndEmail = {
   name: 'New Name',
   email: 'newemail@gmail.com',
+  role: 'admin',
 }

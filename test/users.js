@@ -243,6 +243,7 @@ describe('users', () => {
 
           expect(data.name).to.be.equal(testUsers.updateNameAndEmail.name);
           expect(data.email).to.be.equal(testUsers.updateNameAndEmail.email);
+          expect(data.role).to.be.equal(testUsers.updateNameAndEmail.role);
 
           done();
         })
