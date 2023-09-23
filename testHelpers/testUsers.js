@@ -89,3 +89,7 @@ exports.updatePassword = {
 exports.updateActiveFalse = {
   active: false,
 }
+
+exports.updateId = {
+  _id: '1oh23uo1h23iu132h',
+}

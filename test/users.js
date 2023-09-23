@@ -281,6 +281,22 @@ describe('users', () => {
         })
         .catch(err => done(err));
     });
+
+    it('should not successfully update user\'s id', done => {
+      request
+        .patch(`api/v1/users/${testUserId}`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testUsers.updateActiveFals)
+        .expect(200)
+        .then(res => {
+          const { data } = res.body.data;
+          testUserId = data._id;
+
+          expect(data._id).to.be.not.equal(testUsers.updateId);
+          done();
+        })
+        .catch(err => done(err));
+    });
   });
 
   describe('DELETE /users', () => {
