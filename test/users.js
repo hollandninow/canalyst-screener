@@ -266,6 +266,19 @@ describe('users', () => {
         .catch(err => done(err));
     });
 
+    
+    it('should fail to update user\'s password if too short', done => {
+      request
+        .patch(`api/v1/users/${testUserId}`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testUsers.updatePasswordShort)
+        .expect(400)
+        .then(res => {
+          done();
+        })
+        .catch(err => done(err));
+    });
+
     it('should update user\'s active status', done => {
       request
         .patch(`api/v1/users/${testUserId}`)

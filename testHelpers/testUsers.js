@@ -86,6 +86,10 @@ exports.updatePassword = {
   password: 'newpass1234',
 }
 
+exports.updatePasswordShort = {
+  password: '2short',
+}
+
 exports.updateActiveFalse = {
   active: false,
 }
