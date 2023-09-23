@@ -81,3 +81,7 @@ exports.updateNameAndEmail = {
   email: 'newemail@gmail.com',
   role: 'admin',
 }
+
+exports.updatePassword = {
+  password: 'newpass1234',
+}

@@ -249,6 +249,22 @@ describe('users', () => {
         })
         .catch(err => done(err));
     });
+
+    it('should update a user when provided a new password', done => {
+      request
+        .patch(`api/v1/users/${testUserId}`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testUsers.updatePassword)
+        .expect(200)
+        .then(res => {
+          const { data } = res.body.data;
+          testUserId = data._id;
+
+          expect(data.password).to.be.undefined;
+          done();
+        })
+        .catch(err => done(err));
+    });
   });
 
   describe('DELETE /users', () => {
