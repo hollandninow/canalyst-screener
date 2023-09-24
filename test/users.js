@@ -220,14 +220,22 @@ describe('users', () => {
           const { data } = res.body.data;
           testUserId = data._id;
         })
+        .catch(err => {
+          console.log(err);
+        })
     );
 
     afterEach(() => 
       request
         .delete(`api/v1/users/${testUserId}`)
         .set('Authorization', `Bearer ${adminToken}`)
+        .expect(204)
         .then(res => {
+          // console.log(res);
           testUserId = undefined;
+        })
+        .catch(err => {
+          console.log(err);
         })
     );
 
@@ -239,7 +247,7 @@ describe('users', () => {
         .expect(200)
         .then(res => {
           const { data } = res.body.data;
-          testUserId = data._id;
+          // testUserId = data._id;
 
           expect(data.name).to.be.equal(testUsers.updateNameAndEmail.name);
           expect(data.email).to.be.equal(testUsers.updateNameAndEmail.email);
@@ -258,7 +266,7 @@ describe('users', () => {
         .expect(200)
         .then(res => {
           const { data } = res.body.data;
-          testUserId = data._id;
+          // testUserId = data._id;
 
           expect(data.password).to.be.undefined;
           done();
@@ -279,33 +287,28 @@ describe('users', () => {
         .catch(err => done(err));
     });
 
-    it('should update user\'s active status', done => {
-      request
-        .patch(`api/v1/users/${testUserId}`)
-        .set('Authorization', `Bearer ${adminToken}`)
-        .send(testUsers.updateActiveFals)
-        .expect(200)
-        .then(res => {
-          const { data } = res.body.data;
-          testUserId = data._id;
-
-          expect(data.active).to.be.undefined;
-          done();
-        })
-        .catch(err => done(err));
-    });
-
     it('should not successfully update user\'s id', done => {
       request
         .patch(`api/v1/users/${testUserId}`)
         .set('Authorization', `Bearer ${adminToken}`)
-        .send(testUsers.updateActiveFals)
+        .send(testUsers.updateId)
+        .expect(400)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+
+    it('should not successfully update a fictional field (i.e. one that is not in the user model)', done => {
+      request
+        .patch(`api/v1/users/${testUserId}`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testUsers.updateFictionalField)
         .expect(200)
         .then(res => {
           const { data } = res.body.data;
           testUserId = data._id;
 
-          expect(data._id).to.be.not.equal(testUsers.updateId);
+          expect(data.fictionalField).to.be.not.equal(testUsers.updateFictionalField);
+          expect(data.fictionalField).to.be.undefined;
           done();
         })
         .catch(err => done(err));

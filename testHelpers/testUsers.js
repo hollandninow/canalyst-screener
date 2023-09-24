@@ -33,6 +33,13 @@ exports.testUser = {
   passwordConfirm: 'test1234',
 }
 
+exports.testUser2 = {
+  name: 'Test',
+  email: 'test2@gmail.com',
+  password: 'test1234',
+  passwordConfirm: 'test1234',
+}
+
 exports.testUserNoName = {
   email: 'test@gmail.com',
   password: 'test1234',
@@ -96,4 +103,8 @@ exports.updateActiveFalse = {
 
 exports.updateId = {
   _id: '1oh23uo1h23iu132h',
+}
+
+exports.updateFictionalField = {
+  fictionalField: 'orange',
 }
