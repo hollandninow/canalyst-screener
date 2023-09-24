@@ -316,6 +316,61 @@ describe('users', () => {
   });
 
   describe('DELETE /users', () => {
+    before(() => 
+      request
+        .post('api/v1/users/login')
+        .send(testUsers.adminTestUser)
+        .then(res => {
+          adminToken = res.body.token;
+        })
+    );
 
+  beforeEach(() =>
+    request
+      .post('api/v1/users/')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send(testUsers.testUser)
+      .then(res => {
+        const { data } = res.body.data;
+        testUserId = data._id;
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    );
+
+    afterEach(() => 
+    request
+      .delete(`api/v1/users/${testUserId}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .then(res => {
+        testUserId = undefined;
+      })
+  );
+  
+  it('should delete an existing user', done => {
+    request
+      .delete(`api/v1/users/${testUserId}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(204)
+      .then(res => {
+        testUserId = undefined;
+        done();
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  });
+
+  it('should fail to delete a fictional user', done => {
+    request
+      .delete(`api/v1/users/${testUsers.adminFakeUserId}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(400)
+      .then(res => done())
+      .catch(err => {
+        console.log(err);
+      })
+  });
   });
 });
