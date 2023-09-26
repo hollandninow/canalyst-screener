@@ -15,7 +15,6 @@ const companySchema = new mongoose.Schema(
       trim: true,
       minLength: [10, 'CSIN must be 10 characters.'],
       maxLength: [10, 'CSIN must be 10 characters.'],
-      immutable: true,
       uppercase: true,
     },
     canalystTicker: {
