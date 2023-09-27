@@ -58,7 +58,27 @@ describe('companies', () => {
           done();
         })
         .catch(err => done(err));
-    })
+    });
+
+    it('should throw 400 error when the duplication of company is attempted', done => {
+      request
+        .post('api/v1/companies/')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testCompanies.testCompany)
+        .then(res => {
+          const { data } = res.body.data;
+          testCompanyId = data._id;
+
+          request
+            .post('api/v1/companies/')
+            .set('Authorization', `Bearer ${adminToken}`)
+            .send(testCompanies.testCompany)
+            .expect(400)
+            .then(res => done())
+            .catch(err => done(err));
+        })
+        .catch(err => done(err));
+    });
   });
   
   describe('GET companies', () => {
