@@ -79,6 +79,19 @@ describe('companies', () => {
         })
         .catch(err => done(err));
     });
+
+    it('should return 500 status code when name field is missing', done => {
+      const testCompanyNoName = {...testCompanies.testCompany};
+      delete testCompanyNoName.name;
+
+      request
+        .post('api/v1/companies/')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testCompanyNoName)
+        .expect(500)
+        .then(res => done())
+        .catch(err => done(err));
+    });
   });
   
   describe('GET companies', () => {
