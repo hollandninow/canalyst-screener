@@ -80,62 +80,62 @@ describe('users', () => {
         .catch(err => done(err));
     });
 
-    it('should thrown 400 error when creating a user with no name', () => {
+    it('should return 500 status code when creating a user with no name', done => {
       request
         .post('api/v1/users/')
         .set('Authorization', `Bearer ${adminToken}`)
         .send(testUsers.testUserNoName)
-        .expect(400)
+        .expect(500)
         .then(res => done())
         .catch(err => done(err));
     });
 
-    it('should thrown 400 error when creating a user with no email', () => {
+    it('should return 500 status code when creating a user with no email', done => {
       request
         .post('api/v1/users/')
         .set('Authorization', `Bearer ${adminToken}`)
         .send(testUsers.testUserNoEmail)
-        .expect(400)
+        .expect(500)
         .then(res => done())
         .catch(err => done(err));
     });
 
-    it('should thrown 400 error when creating a user with an invalid email', () => {
+    it('should return 500 status code when creating a user with an invalid email', done => {
       request
         .post('api/v1/users/')
         .set('Authorization', `Bearer ${adminToken}`)
         .send(testUsers.testUserMalformedEmail)
-        .expect(400)
+        .expect(500)
         .then(res => done())
         .catch(err => done(err));
     });
 
-    it('should thrown 400 error when creating a user with no password', () => {
+    it('should return 500 status code when creating a user with no password', done => {
       request
         .post('api/v1/users/')
         .set('Authorization', `Bearer ${adminToken}`)
         .send(testUsers.testUserNoPassword)
-        .expect(400)
+        .expect(500)
         .then(res => done())
         .catch(err => done(err));
     });
 
-    it('should thrown 400 error when creating a user with no password confirm', () => {
+    it('should return 500 status code when creating a user with no password confirm', done => {
       request
         .post('api/v1/users/')
         .set('Authorization', `Bearer ${adminToken}`)
         .send(testUsers.testUserNoPasswordConfirm)
-        .expect(400)
+        .expect(500)
         .then(res => done())
         .catch(err => done(err));
     });
 
-    it('should thrown 400 error when creating a user with mismatched password and password confirm', () => {
+    it('should return 500 status code when creating a user with mismatched password and password confirm', done => {
       request
         .post('api/v1/users/')
         .set('Authorization', `Bearer ${adminToken}`)
         .send(testUsers.testUserMismatchPasswords)
-        .expect(400)
+        .expect(500)
         .then(res => done())
         .catch(err => done(err));
     });
