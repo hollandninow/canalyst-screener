@@ -18,6 +18,23 @@ exports.testCompany = {
   reportingCurrency: 'USD',
 }
 
+exports.testCompanyUpdate = {
+  name: 'The New Test Company',
+  csin: 'Z1X2C3V4B5',
+  canalystTicker: 'NEW_US',
+  bloombergTicker: 'NEW US',
+  countryCode: 'ca',
+  version: 'Q4-2023.8',
+  mostRecentPeriod: 'Q4-2023',
+  mrpDuration: 'fiscal_year',
+  mrpStartDate: '2023-07-01',
+  mrpEndDate: '2023-09-30',
+  isInCoverage: false,
+  reportingFrequency: 'HFY',
+  tradingCurrency: 'CAD',
+  reportingCurrency: 'CAD',
+}
+
 exports.permanentTestCompany = {
   name: 'The Permanent Test Company',
   csin: 'Q1W2E3R4T5',
