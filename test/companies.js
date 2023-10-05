@@ -92,6 +92,175 @@ describe('companies', () => {
         .then(res => done())
         .catch(err => done(err));
     });
+
+    it('should return 500 status code when csin field is missing', done => {
+      const testCompanyNoName = {...testCompanies.testCompany};
+      delete testCompanyNoName.csin;
+
+      request
+        .post('api/v1/companies/')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testCompanyNoName)
+        .expect(500)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+
+    it('should return 500 status code when canalystTicker field is missing', done => {
+      const testCompanyNoName = {...testCompanies.testCompany};
+      delete testCompanyNoName.canalystTicker;
+
+      request
+        .post('api/v1/companies/')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testCompanyNoName)
+        .expect(500)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+
+    it('should return 500 status code when bloombergTicker field is missing', done => {
+      const testCompanyNoName = {...testCompanies.testCompany};
+      delete testCompanyNoName.bloombergTicker;
+
+      request
+        .post('api/v1/companies/')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testCompanyNoName)
+        .expect(500)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+
+    it('should return 500 status code when countryCode field is missing', done => {
+      const testCompanyNoName = {...testCompanies.testCompany};
+      delete testCompanyNoName.countryCode;
+
+      request
+        .post('api/v1/companies/')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testCompanyNoName)
+        .expect(500)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+
+    it('should return 500 status code when version field is missing', done => {
+      const testCompanyNoName = {...testCompanies.testCompany};
+      delete testCompanyNoName.version;
+
+      request
+        .post('api/v1/companies/')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testCompanyNoName)
+        .expect(500)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+
+    it('should return 500 status code when mostRecentPeriod field is missing', done => {
+      const testCompanyNoName = {...testCompanies.testCompany};
+      delete testCompanyNoName.mostRecentPeriod;
+
+      request
+        .post('api/v1/companies/')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testCompanyNoName)
+        .expect(500)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+
+    it('should return 500 status code when mrpDuration field is missing', done => {
+      const testCompanyNoName = {...testCompanies.testCompany};
+      delete testCompanyNoName.mrpDuration;
+
+      request
+        .post('api/v1/companies/')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testCompanyNoName)
+        .expect(500)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+
+    it('should return 500 status code when mrpStartDate field is missing', done => {
+      const testCompanyNoName = {...testCompanies.testCompany};
+      delete testCompanyNoName.mrpStartDate;
+
+      request
+        .post('api/v1/companies/')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testCompanyNoName)
+        .expect(500)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+
+    it('should return 500 status code when mrpEndDate field is missing', done => {
+      const testCompanyNoName = {...testCompanies.testCompany};
+      delete testCompanyNoName.mrpEndDate;
+
+      request
+        .post('api/v1/companies/')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testCompanyNoName)
+        .expect(500)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+
+    it('should return 500 status code when isInCoverage field is missing', done => {
+      const testCompanyNoName = {...testCompanies.testCompany};
+      delete testCompanyNoName.isInCoverage;
+
+      request
+        .post('api/v1/companies/')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testCompanyNoName)
+        .expect(500)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+
+    it('should return 500 status code when reportingFrequency field is missing', done => {
+      const testCompanyNoName = {...testCompanies.testCompany};
+      delete testCompanyNoName.reportingFrequency;
+
+      request
+        .post('api/v1/companies/')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testCompanyNoName)
+        .expect(500)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+
+    it('should return 500 status code when tradingCurrency field is missing', done => {
+      const testCompanyNoName = {...testCompanies.testCompany};
+      delete testCompanyNoName.tradingCurrency;
+
+      request
+        .post('api/v1/companies/')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testCompanyNoName)
+        .expect(500)
+        .then(res => done())
+        .catch(err => done(err));
+    });
+
+    it('should return 500 status code when reportingCurrency field is missing', done => {
+      const testCompanyNoName = {...testCompanies.testCompany};
+      delete testCompanyNoName.reportingCurrency;
+
+      request
+        .post('api/v1/companies/')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testCompanyNoName)
+        .expect(500)
+        .then(res => done())
+        .catch(err => done(err));
+    });
   });
   
   describe('GET companies', () => {
