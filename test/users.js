@@ -231,7 +231,6 @@ describe('users', () => {
         .set('Authorization', `Bearer ${adminToken}`)
         .expect(204)
         .then(res => {
-          // console.log(res);
           testUserId = undefined;
         })
         .catch(err => {
@@ -266,7 +265,6 @@ describe('users', () => {
         .expect(200)
         .then(res => {
           const { data } = res.body.data;
-          // testUserId = data._id;
 
           expect(data.password).to.be.undefined;
           done();
