@@ -143,12 +143,12 @@ describe('users', () => {
 
   describe('GET /users', () => {
     before(() => 
-    request
-      .post('api/v1/users/login')
-      .send(testUsers.adminTestUser)
-      .then(res => {
-        adminToken = res.body.token;
-      })
+      request
+        .post('api/v1/users/login')
+        .send(testUsers.adminTestUser)
+        .then(res => {
+          adminToken = res.body.token;
+        })
     );
 
     it('GET /users should return all users', done => {
