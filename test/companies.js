@@ -341,7 +341,70 @@ describe('companies', () => {
   });
   
   describe('PATCH /companies', () => {
+    before(() => 
+      request
+        .post('api/v1/users/login')
+        .send(testUsers.adminTestUser)
+        .then(res => {
+          adminToken = res.body.token;
+        })
+    );
 
+    beforeEach(() => 
+      request
+        .post('api/v1/companies/')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testCompanies.testCompany)
+        .then(res => {
+          const { data } = res.body.data;
+          testCompanyId = data._id;
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    );
+
+    afterEach(() =>
+      request
+        .delete(`api/v1/companies/${testCompanyId}`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .expect(204)
+        .then(res => {
+          testCompanyId = undefined;
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    );
+
+    it('should update all fields successfully', done => {
+      request
+        .patch(`api/v1/companies/${testCompanyId}`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testCompanies.testCompanyUpdate)
+        .expect(200)
+        .then(res => {
+          const { data } = res.body.data;
+
+          expect(data.name).to.be.equal(testCompanies.testCompanyUpdate.name);
+          expect(data.csin).to.be.equal(testCompanies.testCompanyUpdate.csin);
+          expect(data.canalystTicker).to.be.equal(testCompanies.testCompanyUpdate.canalystTicker);
+          expect(data.bloombergTicker).to.be.equal(testCompanies.testCompanyUpdate.bloombergTicker);
+          expect(data.countryCode).to.be.equal(testCompanies.testCompanyUpdate.countryCode);
+          expect(data.version).to.be.equal(testCompanies.testCompanyUpdate.version);
+          expect(data.mostRecentPeriod).to.be.equal(testCompanies.testCompanyUpdate.mostRecentPeriod);
+          expect(data.mrpDuration).to.be.equal(testCompanies.testCompanyUpdate.mrpDuration);
+          expect(data.mrpStartDate).to.be.equal(testCompanies.testCompanyUpdate.mrpStartDate);
+          expect(data.mrpEndDate).to.be.equal(testCompanies.testCompanyUpdate.mrpEndDate);
+          expect(data.isInCoverage).to.be.equal(testCompanies.testCompanyUpdate.isInCoverage);
+          expect(data.reportingFrequency).to.be.equal(testCompanies.testCompanyUpdate.reportingFrequency);
+          expect(data.tradingCurrency).to.be.equal(testCompanies.testCompanyUpdate.tradingCurrency);
+          expect(data.reportingCurrency).to.be.equal(testCompanies.testCompanyUpdate.reportingCurrency);
+
+          done();
+        })
+        .catch(err => done(err));
+    });
   });
   
   describe('DELETE /companies', () => {
