@@ -20,7 +20,7 @@ describe('companies', () => {
       })
   );
 
-  describe('POST companies', () => {
+  describe('POST /companies', () => {
     afterEach(() => 
       request
         .delete(`api/v1/companies/${testCompanyId}`)
@@ -263,15 +263,15 @@ describe('companies', () => {
     });
   });
   
-  describe('GET companies', () => {
+  describe('GET /companies', () => {
 
   });
   
-  describe('PATCH companies', () => {
+  describe('PATCH /companies', () => {
 
   });
   
-  describe('DELETE companies', () => {
+  describe('DELETE /companies', () => {
 
   });
 });
