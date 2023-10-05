@@ -264,7 +264,80 @@ describe('companies', () => {
   });
   
   describe('GET /companies', () => {
+    before(() => 
+      request
+        .post('api/v1/users/login')
+        .send(testUsers.adminTestUser)
+        .then(res => {
+          adminToken = res.body.token;
+        })
+      );
 
+    it('GET /companies should return all companies', done => {
+      request
+        .get('api/v1/companies')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .expect(200)
+        .then(res => {
+          const { data } = res.body.data;
+
+          expect(data.length).to.be.equal(1);
+          expect(data[0].name).to.be.equal(testCompanies.permanentTestCompany.name);
+          expect(data[0].csin).to.be.equal(testCompanies.permanentTestCompany.csin);
+          expect(data[0].canalystTicker).to.be.equal(testCompanies.permanentTestCompany.canalystTicker);
+          expect(data[0].bloombergTicker).to.be.equal(testCompanies.permanentTestCompany.bloombergTicker);
+          expect(data[0].countryCode).to.be.equal(testCompanies.permanentTestCompany.countryCode);
+          expect(data[0].version).to.be.equal(testCompanies.permanentTestCompany.version);
+          expect(data[0].mostRecentPeriod).to.be.equal(testCompanies.permanentTestCompany.mostRecentPeriod);
+          expect(data[0].mrpDuration).to.be.equal(testCompanies.permanentTestCompany.mrpDuration);
+          expect(data[0].mrpStartDate).to.be.equal(testCompanies.permanentTestCompany.mrpStartDate);
+          expect(data[0].mrpEndDate).to.be.equal(testCompanies.permanentTestCompany.mrpEndDate);
+          expect(data[0].isInCoverage).to.be.equal(testCompanies.permanentTestCompany.isInCoverage);
+          expect(data[0].reportingFrequency).to.be.equal(testCompanies.permanentTestCompany.reportingFrequency);
+          expect(data[0].tradingCurrency).to.be.equal(testCompanies.permanentTestCompany.tradingCurrency);
+          expect(data[0].reportingCurrency).to.be.equal(testCompanies.permanentTestCompany.reportingCurrency);
+
+          done();
+        })
+        .catch(err => done(err));
+    });
+
+    it('GET /companies/:id should return a company', done => {
+      request
+        .get(`api/v1/companies/${testCompanies.permanentTestCompanyId}`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .expect(200)
+        .then(res => {
+          const { data } = res.body.data;
+
+          expect(data.name).to.be.equal(testCompanies.permanentTestCompany.name);
+          expect(data.csin).to.be.equal(testCompanies.permanentTestCompany.csin);
+          expect(data.canalystTicker).to.be.equal(testCompanies.permanentTestCompany.canalystTicker);
+          expect(data.bloombergTicker).to.be.equal(testCompanies.permanentTestCompany.bloombergTicker);
+          expect(data.countryCode).to.be.equal(testCompanies.permanentTestCompany.countryCode);
+          expect(data.version).to.be.equal(testCompanies.permanentTestCompany.version);
+          expect(data.mostRecentPeriod).to.be.equal(testCompanies.permanentTestCompany.mostRecentPeriod);
+          expect(data.mrpDuration).to.be.equal(testCompanies.permanentTestCompany.mrpDuration);
+          expect(data.mrpStartDate).to.be.equal(testCompanies.permanentTestCompany.mrpStartDate);
+          expect(data.mrpEndDate).to.be.equal(testCompanies.permanentTestCompany.mrpEndDate);
+          expect(data.isInCoverage).to.be.equal(testCompanies.permanentTestCompany.isInCoverage);
+          expect(data.reportingFrequency).to.be.equal(testCompanies.permanentTestCompany.reportingFrequency);
+          expect(data.tradingCurrency).to.be.equal(testCompanies.permanentTestCompany.tradingCurrency);
+          expect(data.reportingCurrency).to.be.equal(testCompanies.permanentTestCompany.reportingCurrency);
+
+          done();
+        })
+        .catch(err => done(err));
+    });
+
+    it('GET /users/:id should throw 400 error when provided a fictitious id', done => {
+      request
+        .get(`api/v1/users/${testCompanies.fakeTestCompanyId}`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .expect(400)
+        .then(res => done())
+        .catch(err => done(err));
+    });
   });
   
   describe('PATCH /companies', () => {
