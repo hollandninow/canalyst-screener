@@ -246,7 +246,6 @@ describe('users', () => {
         .expect(200)
         .then(res => {
           const { data } = res.body.data;
-          // testUserId = data._id;
 
           expect(data.name).to.be.equal(testUsers.updateNameAndEmail.name);
           expect(data.email).to.be.equal(testUsers.updateNameAndEmail.email);
