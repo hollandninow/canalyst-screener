@@ -425,6 +425,36 @@ describe('companies', () => {
   });
   
   describe('DELETE /companies', () => {
+    before(() => 
+      request
+        .post('api/v1/users/login')
+        .send(testUsers.adminTestUser)
+        .then(res => {
+          adminToken = res.body.token;
+        })
+    );
 
+    beforeEach(() => 
+      request
+        .post('api/v1/companies')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testCompanies.testCompany)
+        .then(res => {
+          const { data } = res.body.data;
+          testCompanyId = data._id;
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    );
+
+    afterEach(() => 
+      request
+        .delete(`api/v1/users/${testCompanyId}`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .then(res => {
+          testUserId = undefined;
+        })
+    );
   });
 });
