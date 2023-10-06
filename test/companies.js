@@ -450,11 +450,36 @@ describe('companies', () => {
 
     afterEach(() => 
       request
-        .delete(`api/v1/users/${testCompanyId}`)
+        .delete(`api/v1/companies/${testCompanyId}`)
         .set('Authorization', `Bearer ${adminToken}`)
         .then(res => {
           testUserId = undefined;
         })
     );
+
+    it('should delete an existing company', done => {
+      request
+        .delete(`api/v1/companies/${testCompanyId}`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .expect(204)
+        .then(res => {
+          testCompanyId = undefined;
+          done();
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    });
+
+    it('should fail to delete a fictional company', done => {
+      request
+        .delete(`api/v1/companies/${testCompanies.fakeTestCompanyId}`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .expect(400)
+        .then(res => done())
+        .catch(err => {
+          console.log(err);
+        })
+    });
   });
 });
