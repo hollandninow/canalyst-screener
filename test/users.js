@@ -337,13 +337,13 @@ describe('users', () => {
     );
 
     afterEach(() => 
-    request
-      .delete(`api/v1/users/${testUserId}`)
-      .set('Authorization', `Bearer ${adminToken}`)
-      .then(res => {
-        testUserId = undefined;
-      })
-  );
+      request
+        .delete(`api/v1/users/${testUserId}`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .then(res => {
+          testUserId = undefined;
+        })
+    );
   
   it('should delete an existing user', done => {
     request
