@@ -35,6 +35,10 @@ exports.testCompanyUpdate = {
   reportingCurrency: 'CAD',
 }
 
+exports.updateFictionalField = {
+  fictionalField: true,
+}
+
 exports.permanentTestCompany = {
   name: 'The Permanent Test Company',
   csin: 'Q1W2E3R4T5',

@@ -405,6 +405,23 @@ describe('companies', () => {
         })
         .catch(err => done(err));
     });
+
+    it('should not successfully update a fictional field', done => {
+      request
+        .patch(`api/v1/companies/${testCompanyId}`)
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send(testCompanies.updateFictionalField)
+        .expect(200)
+        .then(res => {
+          const { data } = res.body.data;
+          
+          expect(data.fictionalField).to.be.not.equal(testCompanies.updateFictionalField);
+          expect(data.fictionalField).to.be.undefined;
+
+          done();
+        })
+        .catch(err => done(err));
+    });
   });
   
   describe('DELETE /companies', () => {
