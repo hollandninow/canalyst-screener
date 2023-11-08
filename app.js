@@ -40,10 +40,12 @@ if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') ap
 
 // Limit requests from same IP
 const limiter = rateLimit({
-  max: 100,
+  max: 1000,
   windowsMs: 60 * 60 * 1000,
   message: 'Too many requests from this IP. Please try again in an hour.',
 });
+
+app.use('/api', limiter);
 
 // Body parser, read data from body into req.body, cookie parser
 app.use(express.json({ limit: '10kb' }));
