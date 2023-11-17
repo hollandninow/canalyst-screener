@@ -1,9 +1,16 @@
-const MDSNavigator = require('./MDSNavigator');
+const axios = require('axios');
 const { convertCSVToArray } = require('../utils/convertCSVToArray');
 
-class MDSCompanyList extends MDSNavigator {
+class MDSCompanyList {
   constructor(token) {
-    super(token);
+    this.instance = axios.create({
+      baseURL: 'https://mds.canalyst.com/api/',
+      timeout: 20000,
+      headers: {
+        Authorization: 'Bearer ' + token,
+      }
+    });
+
     this.APIQueryURL = 'companies/'
   }
   
