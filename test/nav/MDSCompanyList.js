@@ -1,4 +1,3 @@
-const supertest = require('supertest');
 const { expect } = require('chai');
 const MDSCompanyList = require('../../MDSNavigator/MDSCompanyList');
 
