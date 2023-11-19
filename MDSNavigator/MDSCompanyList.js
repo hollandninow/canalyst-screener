@@ -3,6 +3,9 @@ const { convertCSVToArray } = require('../utils/convertCSVToArray');
 
 class MDSCompanyList {
   constructor(token) {
+    if (!token)
+      throw new Error('Must pass API token as parameter in constructor.')
+
     this.instance = axios.create({
       baseURL: 'https://mds.canalyst.com/api/',
       timeout: 20000,
