@@ -17,7 +17,7 @@ describe('MDSCompanyList', () => {
 
     it('throws an error when not passed a token', () => {
         try {
-          const list = new MDSCompanyList();
+          new MDSCompanyList();
         } catch (err) {
           expect(err).to.be.an('Error');
           expect(err.message).to.be.equal('Must pass API token as parameter in constructor.');
