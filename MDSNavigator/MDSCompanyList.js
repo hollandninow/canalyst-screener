@@ -25,7 +25,6 @@ class MDSCompanyList {
     const formattedSector = sector === undefined ? '' : sector.replace(' ', '%20');
 
     const queryString = `${this.APIQueryURL}?format=csv&${sector ? `sector=${formattedSector}` : ''}`;
-    let companyList;
 
     try {
       const res = await this.instance.get(queryString);
