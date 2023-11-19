@@ -1,7 +1,7 @@
 const supertest = require('supertest');
 const { expect } = require('chai');
 const dotenv = require('dotenv');
-const testUsers = require('../testHelpers/testUsers');
+const testUsers = require('../../testHelpers/testUsers');
 
 dotenv.config({ path: './config.env' });
 
