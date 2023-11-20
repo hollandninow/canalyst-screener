@@ -10,7 +10,7 @@
     "start:prod": "SET NODE_ENV=production& nodemon server.js",
     "start:test": "SET NODE_ENV=test& nodemon server.js",
     "test:api": "NODE_ENV=test mocha ./test/api --recursive --exit --timeout 10000",
-    "test:nav": "NODE_ENV=test mocha ./test/nav --recursive --exit --timeout 10000",
+    "test:unit": "NODE_ENV=test mocha ./test/unit-tests --recursive --exit --timeout 10000",
     "main": "node main.js"
   },
   "author": "Holland Ninow",
