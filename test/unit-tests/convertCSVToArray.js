@@ -17,7 +17,7 @@ describe('convertCSVToArray', () => {
     expect(keys[0]).to.be.equal('company_id');
     expect(keys[1]).to.be.equal('company_name');
     expect(keys[2]).to.be.equal('is_in_coverage');
-  expect(keys[3]).to.be.equal('CapIQ');
+    expect(keys[3]).to.be.equal('CapIQ');
     expect(keys[4]).to.be.equal('FactSet');
     expect(keys[5]).to.be.equal('Thomson');
     expect(keys[6]).to.be.equal('Canalyst');
