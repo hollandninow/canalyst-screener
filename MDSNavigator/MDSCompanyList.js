@@ -22,6 +22,9 @@ class MDSCompanyList {
 
     const { sector } = options;
 
+    if (typeof sector !== 'string' || !( sector instanceof String ))
+      throw new Error('options.sector must be of type String.');
+
     const formattedSector = sector === undefined ? '' : sector.replace(' ', '%20');
 
     const queryString = `${this.APIQueryURL}?format=csv&${sector ? `sector=${formattedSector}` : ''}`;
