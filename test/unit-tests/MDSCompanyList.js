@@ -37,6 +37,7 @@ describe('MDSCompanyList', () => {
       expect(data).to.be.deep.equal(responseData);
     });
 
+    // TODO: doesn't really test the method, it is just circular
     it('should retrieve data options.sector is a string', async () => {
       const list = new MDSCompanyList('test');
       const listStub = sinon.stub(list, 'getCompanyList');
