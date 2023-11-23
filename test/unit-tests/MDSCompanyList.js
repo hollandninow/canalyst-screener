@@ -1,3 +1,4 @@
+const sinon = require('sinon');
 const { expect } = require('chai');
 const MDSCompanyList = require('../../MDSNavigator/MDSCompanyList');
 
@@ -21,6 +22,45 @@ describe('MDSCompanyList', () => {
           expect(err).to.be.an('Error');
           expect(err.message).to.be.equal('Must pass API token as parameter in constructor.');
         }
+    });
+  });
+
+  describe('getCompanyList', () => {
+    it('should retrieve data when given no parameters', async () => {
+      const list = new MDSCompanyList('test');
+      const listStub = sinon.stub(list, 'getCompanyList');
+      const responseData = { data: 'csv' };
+      listStub.resolves(responseData);
+  
+      const data = await list.getCompanyList();
+  
+      expect(data).to.be.deep.equal(responseData);
+    });
+
+    it('should retrieve data options.sector is a string', async () => {
+      const list = new MDSCompanyList('test');
+      const listStub = sinon.stub(list, 'getCompanyList');
+      const responseData = { data: 'csv' };
+      listStub.resolves(responseData);
+  
+      const data = await list.getCompanyList({
+        sector: 'test',
+      });
+  
+      expect(data).to.be.deep.equal(responseData);
+    });
+
+    it('should throw an error when options.sector is not a string', async () => {
+      
+      try {
+        await new MDSCompanyList('test').getCompanyList({
+          sector: 123,
+        });
+      } catch (err) {
+        expect(err).to.be.an('Error');
+        expect(err.message).to.be.equal('options.sector must be of type String.');
+      }
+
     });
   });
 });
