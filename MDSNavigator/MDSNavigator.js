@@ -1,5 +1,6 @@
 const axios = require('axios');
 const MDSCompanyList = require('./MDSCompanyList');
+const { convertCSVToArray } = require('../utils/convertCSVToArray');
 
 class MDSNavigator {
   APIRootURL = 'https://mds.canalyst.com/api/';
@@ -29,24 +30,27 @@ class MDSNavigator {
     return this.companyListArray;
   }
 
-  // async getHistoricalData(ticker) {
-  //   options = options || {};
-  //   const { csin, ticker } = options;
+  async getModelData(options) {
+    options = options || {};
+    const { csin, ticker, dataType } = options;
 
-  //   if (csin === undefined && ticker === undefined) 
-  //     throw new Error('Must include csin or ticker in parameters.');
+    if (!(dataType === 'historical' || dataType === 'forecast'))
+      throw new Error('options.dataType must be \'historical\' or \'forecast\'.');
 
-  //   if ( ticker.ticker === undefined || ticker.tickerType === undefined )
-  //     throw new Error('ticker.ticker and ticker.tickerType must be defined.'); 
-  // }
+    if ( !csin && !ticker ) 
+      throw new Error('One of options.csin or options.ticker must be defined.');
 
-  // async getForecastData(options) {
+    const queryString = `equity-model-series/${csin ? csin : ticker}/equity-models/latest/bulk-data/${dataType}-data.csv`;
 
-  // }
+    try {
+      const res = await this.instance.get(queryString);
 
-  // async getEquityModelSeriesSet(options) {
-
-  // }
+      const data = convertCSVToArray(res.data);
+      return data;
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = MDSNavigator;
