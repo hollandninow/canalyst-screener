@@ -24,15 +24,34 @@ describe('MDSCompanyNavigator', () => {
     });
   });
 
-  describe('getModelHistoricalData', () => {
-    it('should throw an error when options do not contain either csin or ticker', async () => {
+  describe('getModelData', () => {
+    it('should throw an error when options.dataType is not defined', async () => {
       const nav = new MDSNavigator('test');
 
       try {
-        await nav.getModelHistoricalData();
+        await nav.getModelData({
+          dataType: undefined,
+          csin: undefined,
+          ticker: undefined,
+        });
       } catch (err) {
         expect(err).to.be.an('Error');
-        expect(err.message).to.be.equal('Must include csin or ticker in parameters.');
+        expect(err.message).to.be.equal('options.dataType must be \'historical\' or \'forecast\'.');
+      }
+    });
+
+    it('should throw an error when both options.csin or options.ticker are not defined', async () => {
+      const nav = new MDSNavigator('test');
+
+      try {
+        await nav.getModelData({
+          dataType: 'historical',
+          csin: undefined,
+          ticker: undefined,
+        });
+      } catch (err) {
+        expect(err).to.be.an('Error');
+        expect(err.message).to.be.equal('One of options.csin or options.ticker must be defined.');
       }
     });
   });
