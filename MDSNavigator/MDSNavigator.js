@@ -1,5 +1,4 @@
 const axios = require('axios');
-const MDSCompanyList = require('./MDSCompanyList');
 const { convertCSVToArray } = require('../utils/convertCSVToArray');
 
 class MDSNavigator {
