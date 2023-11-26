@@ -1,14 +1,21 @@
-const MDSCompanyList = require('./MDSNavigator/MDSCompanyList');
+const MDSNavigator = require('./MDSNavigator/MDSNavigator');
 const dotenv = require('dotenv');
 
 dotenv.config({ path: './config.env' });
 
-
 const main = async () => {
   try {
-    const companyList = await new MDSCompanyList(process.env.CANALYST_JWT).getCompanyList({ sector: 'reinsurance' });
+    const navigator = new MDSNavigator(process.env.CANALYST_JWT);
 
-    console.log(companyList);
+    // const list = await navigator.initCompanyList({ sector: 'reinsurance' });
+    // console.log(list);
+
+    // const data = await navigator.getModelData({ 
+    //   ticker: 'AAPL_US',
+    //   dataType: 'historical',
+    // });
+    // console.log(data);
+
   } catch (err) {
     console.error(err);
   }
