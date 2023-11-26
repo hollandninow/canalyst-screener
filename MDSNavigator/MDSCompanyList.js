@@ -22,7 +22,7 @@ class MDSCompanyList {
 
     const { sector } = options;
 
-    if (typeof sector !== 'string' || !( sector instanceof String ))
+    if (typeof sector !== 'string')
       throw new Error('options.sector must be of type String.');
 
     const formattedSector = sector === undefined ? '' : sector.replace(' ', '%20');
