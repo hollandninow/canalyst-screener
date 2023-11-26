@@ -5,12 +5,12 @@ describe('MDSCompanyNavigator', () => {
   describe('constructor', () => {
     it('should initialize when passed any token', () => {
       const token = 'test'
-      const list = new MDSNavigator(token);
+      const nav = new MDSNavigator(token);
 
-      expect(list.instance).to.be.not.undefined;
-      expect(list.instance.defaults.headers.Authorization).to.be.equal(`Bearer ${token}`);
-      expect(list.instance.defaults.baseURL).to.be.equal('https://mds.canalyst.com/api/');
-      expect(list.instance.defaults.timeout).to.be.equal(20000);
+      expect(nav.instance).to.be.not.undefined;
+      expect(nav.instance.defaults.headers.Authorization).to.be.equal(`Bearer ${token}`);
+      expect(nav.instance.defaults.baseURL).to.be.equal('https://mds.canalyst.com/api/');
+      expect(nav.instance.defaults.timeout).to.be.equal(20000);
   
     });
 
