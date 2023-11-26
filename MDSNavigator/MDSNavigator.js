@@ -20,16 +20,6 @@ class MDSNavigator {
     });
   }
 
-  async initCompanyList(options) {
-    this.companyListArray = await new MDSCompanyList(this.token).getCompanyList(options);
-
-    return this.companyListArray;
-  }
-
-  getCompanyListArray() {
-    return this.companyListArray;
-  }
-
   async getModelData(options) {
     options = options || {};
     const { csin, ticker, dataType } = options;
