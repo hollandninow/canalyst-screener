@@ -1,5 +1,6 @@
 const axios = require('axios');
 const { convertCSVToArray } = require('../utils/convertCSVToArray');
+const { query } = require('express');
 
 class MDSNavigator {
   APIRootURL = 'https://mds.canalyst.com/api/';
@@ -36,6 +37,24 @@ class MDSNavigator {
 
       const data = convertCSVToArray(res.data);
       return data;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async getLatestModelVersion(options) {
+    options = options || {};
+    const { csin, ticker } = options;
+
+    if ( !csin && !ticker ) 
+      throw new Error('One of options.csin or options.ticker must be defined.');
+
+    const queryString = `equity-model-series/${csin ? csin : ticker}`;
+
+    try {
+      const res = await this.instance.get(queryString);
+
+      return res.data.latest_equity_model.model_version.name;
     } catch (err) {
       throw err;
     }

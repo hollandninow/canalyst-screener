@@ -55,4 +55,20 @@ describe('MDSCompanyNavigator', () => {
       }
     });
   });
+
+  describe('getModelVersion', () => {
+    it('should throw an error when both options.csin or options.ticker are not defined', async () => {
+      const nav = new MDSNavigator('test');
+
+      try {
+        await nav.getLatestModelVersion({
+          csin: undefined,
+          ticker: undefined,
+        });
+      } catch (err) {
+        expect(err).to.be.an('Error');
+        expect(err.message).to.be.equal('One of options.csin or options.ticker must be defined.');
+      }
+    });
+  });
 });

@@ -16,6 +16,11 @@ const main = async () => {
     // });
     // console.log(data);
 
+    // const data = await navigator.getLatestModelVersion({
+    //   ticker: 'AAPL_US',
+    // });
+    // console.log(data);
+
   } catch (err) {
     console.error(err);
   }
