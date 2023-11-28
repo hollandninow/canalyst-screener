@@ -1,6 +1,5 @@
 const axios = require('axios');
 const { convertCSVToArray } = require('../utils/convertCSVToArray');
-const { query } = require('express');
 
 class MDSNavigator {
   APIRootURL = 'https://mds.canalyst.com/api/';
