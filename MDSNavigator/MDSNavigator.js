@@ -81,7 +81,7 @@ class MDSNavigator {
     try {
       const res = await this.instance.get(queryString);
 
-      return res.data;
+      return res.data.results[0];
     } catch (err) {
       throw err;
     }
