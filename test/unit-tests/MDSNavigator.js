@@ -154,4 +154,87 @@ describe('MDSCompanyNavigator', () => {
       }
     });
   });
+
+  describe('getModelLTMDataPoint', () => {
+    it('should throw an error when both options.csin or options.ticker are not defined', async () => {
+      const nav = new MDSNavigator('test');
+
+      try {
+        await nav.getModelLTMDataPoint({
+          csin: undefined,
+          ticker: undefined,
+          periodType: undefined,
+          periodString: undefined,
+        });
+      } catch (err) {
+        expect(err).to.be.an('Error');
+        expect(err.message).to.be.equal('One of options.csin or options.ticker must be defined.');
+      }
+    });
+
+    it('should throw an error when options.periodType is not defined', async () => {
+      const nav = new MDSNavigator('test');
+
+      try {
+        await nav.getModelLTMDataPoint({
+          csin: 'test',
+          ticker: 'TEST_US',
+          periodType: undefined,
+          periodString: undefined,
+        });
+      } catch (err) {
+        expect(err).to.be.an('Error');
+        expect(err.message).to.be.equal('options.periodType must be \'historical\' or \'forecast\'.');
+      }
+    });
+
+    it('should throw an error when options.periodType is defined, but not historical or forecast', async () => {
+      const nav = new MDSNavigator('test');
+
+      try {
+        await nav.getModelLTMDataPoint({
+          csin: 'test',
+          ticker: 'TEST_US',
+          periodType: 'fail',
+          periodString: undefined,
+        });
+      } catch (err) {
+        expect(err).to.be.an('Error');
+        expect(err.message).to.be.equal('options.periodType must be \'historical\' or \'forecast\'.');
+      }
+    });
+
+    it('should throw an error if options.periodString is not defined', async () => {
+      const nav = new MDSNavigator('test');
+
+      try {
+        await nav.getModelLTMDataPoint({
+          csin: 'test',
+          ticker: 'TEST_US',
+          periodType: 'forecast',
+          periodString: undefined,
+        });
+      } catch (err) {
+        expect(err).to.be.an('Error');
+        expect(err.message).to.be.equal('options.periodString must be provided.');
+      }
+    });
+
+    it('should throw an error if options.timeSeriesName is not defined', async () => {
+      const nav = new MDSNavigator('test');
+
+      try {
+        await nav.getModelLTMDataPoint({
+          csin: 'test',
+          ticker: 'TEST_US',
+          periodType: 'forecast',
+          periodString: 'Q3-2023',
+          timeSeriesName: undefined,
+        });
+      } catch (err) {
+        expect(err).to.be.an('Error');
+        expect(err.message).to.be.equal('options.timeSeriesName must be provided.');
+      }
+    });
+  });
 });
