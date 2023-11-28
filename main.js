@@ -21,14 +21,23 @@ const main = async () => {
     // });
     // console.log(data);
 
-    const data = await navigator.getModelDataPoint({
-      ticker: 'AAPL_US',
+    // const data = await navigator.getModelDataPoint({
+    //   ticker: 'FTNT_US',
+    //   periodType: 'historical',
+    //   periodString: 'Q3-2023',
+    //   timeSeriesName: 'MO_RIS_EPS_WAD_Adj'
+    //   // timeSeriesName: 'MO_RIS_REV'
+    // });
+    // console.log(data.results[0].derived_data);
+
+    const data = await navigator.getModelLTMDataPoint({
+      ticker: 'FTNT_US',
       periodType: 'historical',
       periodString: 'Q3-2023',
-      // timeSeriesName: 'MO_RIS_EPS_WAD_Adj'
-      timeSeriesName: 'MO_RIS_REV'
+      timeSeriesName: 'MO_RIS_EPS_WAD_Adj'
+      // timeSeriesName: 'MO_RIS_REV'
     });
-    console.log(data.results[0].derived_data);
+    console.log(data);
 
   } catch (err) {
     console.error(err);
