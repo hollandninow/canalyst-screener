@@ -90,7 +90,6 @@ class MDSNavigator {
   async getModelLTMDataPoint(options) {
     try {
       const data = await this.getModelDataPoint(options);
-      console.log(data);
 
       const LTMData = data.results[0].derived_data[0]?.value;
 
