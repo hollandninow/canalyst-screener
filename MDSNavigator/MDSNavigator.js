@@ -58,6 +58,34 @@ class MDSNavigator {
       throw err;
     }
   }
+
+  async getModelDataPoint(options) {
+    options = options || {};
+
+    const { csin, ticker, periodType, periodString, timeSeriesName } = options;
+
+    if ( !csin && !ticker ) 
+      throw new Error('One of options.csin or options.ticker must be defined.');
+
+    if (!(periodType === 'historical' || periodType === 'forecast'))
+      throw new Error('options.periodType must be \'historical\' or \'forecast\'.');
+
+    if (!periodString)
+      throw new Error('options.periodString must be provided.');
+
+    if (!timeSeriesName)
+      throw new Error('options.timeSeriesName must be provided.')
+
+    const queryString = `equity-model-series/${csin ? csin : ticker}/equity-models/latest/${periodType}-periods/${periodString}/data-points/?time_series_name=${timeSeriesName}`;
+
+    try {
+      const res = await this.instance.get(queryString);
+
+      return res.data;
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = MDSNavigator;
