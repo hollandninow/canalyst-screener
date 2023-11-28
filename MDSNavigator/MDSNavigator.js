@@ -86,6 +86,22 @@ class MDSNavigator {
       throw err;
     }
   }
+
+  async getModelLTMDataPoint(options) {
+    try {
+      const data = await this.getModelDataPoint(options);
+      console.log(data);
+
+      const LTMData = data.results[0].derived_data[0]?.value;
+
+      if (!LTMData)
+        throw new Error(`LTM data not available on this metric (${options.timeSeriesName}).`);
+
+      return LTMData;
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = MDSNavigator;
