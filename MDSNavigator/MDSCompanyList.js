@@ -1,18 +1,25 @@
-const axios = require('axios');
 const { convertCSVToArray } = require('../utils/convertCSVToArray');
 
 class MDSCompanyList {
-  constructor(token) {
-    if (!token)
-      throw new Error('Must pass API token as parameter in constructor.')
+  constructor(axiosInstance) {
+    if (!axiosInstance)
+      throw new Error('Must pass an Axios instance as parameter in constructor.');
 
-    this.instance = axios.create({
-      baseURL: 'https://mds.canalyst.com/api/',
-      timeout: 20000,
-      headers: {
-        Authorization: 'Bearer ' + token,
-      }
-    });
+    if(!axiosInstance.defaults)
+      throw new Error('instance.defaults is undefined. Axios instance not passed or not configured correctly.');
+
+    const defaults = axiosInstance.defaults;
+
+    if (defaults.baseURL !== 'https://mds.canalyst.com/api/')
+      throw new Error('Axios instance BaseURL must be \"https://mds.canalyst.com/api/\".');
+
+    if (!defaults.headers.Authorization)
+      throw new Error('Axios instance missing Authorization header with Canalyst API token.');
+
+    if (!defaults.timeout === 0)
+      throw new Error('Axios instance timeout property needs to be set.');
+
+    this.instance = axiosInstance;
 
     this.APIQueryURL = 'companies/'
   }
