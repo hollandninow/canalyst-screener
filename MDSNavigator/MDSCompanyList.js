@@ -1,25 +1,18 @@
+const axios = require('axios');
 const { convertCSVToArray } = require('../utils/convertCSVToArray');
 
 class MDSCompanyList {
-  constructor(axiosInstance) {
-    if (!axiosInstance)
-      throw new Error('Must pass an Axios instance as parameter in constructor.');
+  constructor(token) {
+    if (!token)
+      throw new Error('Must pass API token as parameter in constructor.')
 
-    if(!axiosInstance.defaults)
-      throw new Error('instance.defaults is undefined. Axios instance not passed or not configured correctly.');
-
-    const defaults = axiosInstance.defaults;
-
-    if (defaults.baseURL !== 'https://mds.canalyst.com/api/')
-      throw new Error('Axios instance BaseURL must be \"https://mds.canalyst.com/api/\".');
-
-    if (!defaults.headers.Authorization)
-      throw new Error('Axios instance missing Authorization header with Canalyst API token.');
-
-    if (!defaults.timeout === 0)
-      throw new Error('Axios instance timeout property needs to be set.');
-
-    this.instance = axiosInstance;
+    this.instance = axios.create({
+      baseURL: 'https://mds.canalyst.com/api/',
+      timeout: 20000,
+      headers: {
+        Authorization: 'Bearer ' + token,
+      }
+    });
 
     this.APIQueryURL = 'companies/'
   }
@@ -29,7 +22,7 @@ class MDSCompanyList {
 
     const { sector } = options;
 
-    if (typeof sector !== 'string')
+    if (sector && typeof sector !== 'string')
       throw new Error('options.sector must be of type String.');
 
     const formattedSector = sector === undefined ? '' : sector.replace(' ', '%20');
@@ -38,6 +31,7 @@ class MDSCompanyList {
 
     try {
       const res = await this.instance.get(queryString);
+      console.log(res.data);
 
       const data = convertCSVToArray(res.data);
       return data;
