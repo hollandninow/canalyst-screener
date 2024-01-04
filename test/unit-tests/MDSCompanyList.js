@@ -8,8 +8,6 @@ const dotenv = require('dotenv');
 
 dotenv.config({ path: './config.env' });
 
-const token = process.env.CANALYST_JWT;
-
 describe('MDSCompanyList', () => {
   describe('constructor', () => {
     describe('constructor', () => {
@@ -69,24 +67,34 @@ describe('MDSCompanyList', () => {
       expect(axiosInstance.get.firstCall.args[0]).to.equal('companies/?format=csv&');
     });
 
-    // TODO: doesn't really test the method, it is just circular
     it('should retrieve data options.sector is a string', async () => {
-      const list = new MDSCompanyList('test');
-      const listStub = sinon.stub(list, 'getCompanyList');
-      const responseData = { data: 'csv' };
-      listStub.resolves(responseData);
-  
-      const data = await list.getCompanyList({
-        sector: 'test',
+      const responseData = fs.readFileSync(`${__dirname}/../test-data/companyListReinsurance.csv`, 'utf-8');
+      const csv = convertCSVToArray(responseData);
+
+      axiosInstance.get.resolves({
+        data: responseData,
       });
-  
-      expect(data).to.be.deep.equal(responseData);
+
+      const sector = 'sectorString';
+
+      const res = await mdsCompanyList.getCompanyList({
+        sector
+      });
+
+      expect(res).to.deep.equal(csv);
+      expect(axiosInstance.get.calledOnce).to.be.true;
+      expect(axiosInstance.get.firstCall.args[0]).to.equal(`companies/?format=csv&sector=${sector}`);
     });
 
     it('should throw an error when options.sector is not a string', async () => {
+      axiosInstance.get.resolves({
+        data: true,
+      });
+
+      const sector = 123;
       try {
-        await new MDSCompanyList('test').getCompanyList({
-          sector: 123,
+        await mdsCompanyList.getCompanyList({
+          sector
         });
       } catch (err) {
         expect(err).to.be.an('Error');
