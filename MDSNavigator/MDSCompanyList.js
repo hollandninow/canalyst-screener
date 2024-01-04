@@ -31,7 +31,6 @@ class MDSCompanyList {
 
     try {
       const res = await this.instance.get(queryString);
-      console.log(res.data);
 
       const data = convertCSVToArray(res.data);
       return data;
