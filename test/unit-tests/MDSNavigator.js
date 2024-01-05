@@ -1,5 +1,9 @@
 const { expect } = require('chai');
+const sinon = require('sinon');
+const proxyquire = require('proxyquire');
+const fs = require('fs');
 const MDSNavigator= require('../../MDSNavigator/MDSNavigator');
+const { convertCSVToArray } = require('../../utils/convertCSVToArray');
 
 describe('MDSCompanyNavigator', () => {
   describe('constructor', () => {
@@ -53,6 +57,40 @@ describe('MDSCompanyNavigator', () => {
         expect(err).to.be.an('Error');
         expect(err.message).to.be.equal('One of options.csin or options.ticker must be defined.');
       }
+    });
+
+    it('should retrieve data if provided options.csin and options.dataType', async () => {
+      const axiosInstance = {
+        get: sinon.stub(),
+      };
+
+      const mockedAxios = {
+        create: () => axiosInstance,
+      };
+
+      const MDSNavigatorProxy = proxyquire('../../MDSNavigator/MDSNavigator.js', {
+        axios: mockedAxios,
+      });
+
+      const navigator = new MDSNavigatorProxy('mockToken');
+
+      const responseData = fs.readFileSync(`${__dirname}/../test-data/companyListReinsurance.csv`, 'utf-8');
+      const csv = convertCSVToArray(responseData);
+
+      axiosInstance.get.resolves({
+        data: responseData,
+      });
+
+      const csin = 'testCSIN';
+
+      const res = await navigator.getModelData({
+        dataType: 'historical',
+        csin,
+      });
+
+      expect(res).to.deep.equal(csv);
+      expect(axiosInstance.get.calledOnce).to.be.true;
+      expect(axiosInstance.get.firstCall.args[0]).to.equal(`equity-model-series/${csin}/equity-models/latest/bulk-data/historical-data.csv`);
     });
   });
 
