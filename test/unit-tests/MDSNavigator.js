@@ -200,7 +200,7 @@ describe('MDSCompanyNavigator', () => {
     });
   });
 
-  describe('getModelVersion', () => {
+  describe('getLatestModelVersion', () => {
     it('should throw an error when both options.csin or options.ticker are not defined', async () => {
       const nav = new MDSNavigator('test');
 
@@ -215,7 +215,7 @@ describe('MDSCompanyNavigator', () => {
       }
     });
 
-    it('should retrieve model version when provided options.csin', async () => {
+    it('should retrieve model version when provided options.ticker', async () => {
       const axiosInstance = {
         get: sinon.stub(),
       };
@@ -252,6 +252,45 @@ describe('MDSCompanyNavigator', () => {
       expect(res).to.equal(responseData.latest_equity_model.model_version.name);
       expect(axiosInstance.get.calledOnce).to.be.true;
       expect(axiosInstance.get.firstCall.args[0]).to.equal(`equity-model-series/${ticker}`);
+    });
+
+    it('should retrieve model version when provided options.csin', async () => {
+      const axiosInstance = {
+        get: sinon.stub(),
+      };
+
+      const mockedAxios = {
+        create: () => axiosInstance,
+      };
+
+      const MDSNavigatorProxy = proxyquire('../../MDSNavigator/MDSNavigator.js', {
+        axios: mockedAxios,
+      });
+
+      
+      const navigator = new MDSNavigatorProxy('mockToken');
+      
+      const responseData = {
+        latest_equity_model: {
+          model_version: {
+            name: 'testModelVersion',
+          }
+        }
+      };
+      
+      axiosInstance.get.resolves({
+        data: responseData,
+      });
+
+      const csin = 'testCSIN';
+      
+      const res = await navigator.getLatestModelVersion({
+        csin,
+      });
+      
+      expect(res).to.equal(responseData.latest_equity_model.model_version.name);
+      expect(axiosInstance.get.calledOnce).to.be.true;
+      expect(axiosInstance.get.firstCall.args[0]).to.equal(`equity-model-series/${csin}`);
     })
   });
 
