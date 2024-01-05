@@ -59,7 +59,7 @@ describe('MDSCompanyNavigator', () => {
       }
     });
 
-    it('should retrieve data if provided options.csin and options.dataType', async () => {
+    it('should retrieve data if provided options.csin and options.dataType=historical', async () => {
       const axiosInstance = {
         get: sinon.stub(),
       };
@@ -82,15 +82,121 @@ describe('MDSCompanyNavigator', () => {
       });
 
       const csin = 'testCSIN';
+      const dataType = 'historical';
 
       const res = await navigator.getModelData({
-        dataType: 'historical',
+        dataType,
         csin,
       });
 
       expect(res).to.deep.equal(csv);
       expect(axiosInstance.get.calledOnce).to.be.true;
-      expect(axiosInstance.get.firstCall.args[0]).to.equal(`equity-model-series/${csin}/equity-models/latest/bulk-data/historical-data.csv`);
+      expect(axiosInstance.get.firstCall.args[0]).to.equal(`equity-model-series/${csin}/equity-models/latest/bulk-data/${dataType}-data.csv`);
+    });
+
+    it('should retrieve data if provided options.csin and options.dataType=forecast', async () => {
+      const axiosInstance = {
+        get: sinon.stub(),
+      };
+
+      const mockedAxios = {
+        create: () => axiosInstance,
+      };
+
+      const MDSNavigatorProxy = proxyquire('../../MDSNavigator/MDSNavigator.js', {
+        axios: mockedAxios,
+      });
+
+      const navigator = new MDSNavigatorProxy('mockToken');
+
+      const responseData = fs.readFileSync(`${__dirname}/../test-data/companyListReinsurance.csv`, 'utf-8');
+      const csv = convertCSVToArray(responseData);
+
+      axiosInstance.get.resolves({
+        data: responseData,
+      });
+
+      const csin = 'testCSIN';
+      const dataType = 'forecast';
+
+      const res = await navigator.getModelData({
+        dataType,
+        csin,
+      });
+
+      expect(res).to.deep.equal(csv);
+      expect(axiosInstance.get.calledOnce).to.be.true;
+      expect(axiosInstance.get.firstCall.args[0]).to.equal(`equity-model-series/${csin}/equity-models/latest/bulk-data/${dataType}-data.csv`);
+    });
+
+    it('should retrieve data if provided options.ticker and options.dataType=historical', async () => {
+      const axiosInstance = {
+        get: sinon.stub(),
+      };
+
+      const mockedAxios = {
+        create: () => axiosInstance,
+      };
+
+      const MDSNavigatorProxy = proxyquire('../../MDSNavigator/MDSNavigator.js', {
+        axios: mockedAxios,
+      });
+
+      const navigator = new MDSNavigatorProxy('mockToken');
+
+      const responseData = fs.readFileSync(`${__dirname}/../test-data/companyListReinsurance.csv`, 'utf-8');
+      const csv = convertCSVToArray(responseData);
+
+      axiosInstance.get.resolves({
+        data: responseData,
+      });
+
+      const ticker = 'testTicker';
+      const dataType = 'historical';
+
+      const res = await navigator.getModelData({
+        dataType,
+        ticker,
+      });
+
+      expect(res).to.deep.equal(csv);
+      expect(axiosInstance.get.calledOnce).to.be.true;
+      expect(axiosInstance.get.firstCall.args[0]).to.equal(`equity-model-series/${ticker}/equity-models/latest/bulk-data/${dataType}-data.csv`);
+    });
+
+    it('should retrieve data if provided options.ticker and options.dataType=historical', async () => {
+      const axiosInstance = {
+        get: sinon.stub(),
+      };
+
+      const mockedAxios = {
+        create: () => axiosInstance,
+      };
+
+      const MDSNavigatorProxy = proxyquire('../../MDSNavigator/MDSNavigator.js', {
+        axios: mockedAxios,
+      });
+
+      const navigator = new MDSNavigatorProxy('mockToken');
+
+      const responseData = fs.readFileSync(`${__dirname}/../test-data/companyListReinsurance.csv`, 'utf-8');
+      const csv = convertCSVToArray(responseData);
+
+      axiosInstance.get.resolves({
+        data: responseData,
+      });
+
+      const ticker = 'testTicker';
+      const dataType = 'forecast';
+
+      const res = await navigator.getModelData({
+        dataType,
+        ticker,
+      });
+
+      expect(res).to.deep.equal(csv);
+      expect(axiosInstance.get.calledOnce).to.be.true;
+      expect(axiosInstance.get.firstCall.args[0]).to.equal(`equity-model-series/${ticker}/equity-models/latest/bulk-data/${dataType}-data.csv`);
     });
   });
 
