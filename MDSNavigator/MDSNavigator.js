@@ -91,7 +91,7 @@ class MDSNavigator {
     try {
       const data = await this.getModelDataPoint(options);
 
-      const LTMData = data.results[0].derived_data[0]?.value;
+      const LTMData = data.derived_data[0]?.value;
 
       if (!LTMData)
         throw new Error(`LTM data not available on this metric (${options.timeSeriesName}).`);
