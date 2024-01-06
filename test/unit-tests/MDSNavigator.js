@@ -524,7 +524,6 @@ describe('MDSCompanyNavigator', () => {
         axios: mockedAxios,
       });
 
-      
       const navigator = new MDSNavigatorProxy('mockToken');
       
       const responseData = {
@@ -637,6 +636,198 @@ describe('MDSCompanyNavigator', () => {
         expect(err).to.be.an('Error');
         expect(err.message).to.be.equal('options.timeSeriesName must be provided.');
       }
+    });
+
+    it('should retrieve model data point when provided csin, periodType=historical, periodString, and timeSeriesName', async () => {
+      const axiosInstance = {
+        get: sinon.stub(),
+      };
+
+      const mockedAxios = {
+        create: () => axiosInstance,
+      };
+
+      const MDSNavigatorProxy = proxyquire('../../MDSNavigator/MDSNavigator.js', {
+        axios: mockedAxios,
+      });
+      
+      const navigator = new MDSNavigatorProxy('mockToken');
+      
+      const responseData = {
+        results: [
+          {
+            derived_data: [
+              {
+                value: 'ltmTestData',
+              },
+            ],
+          },
+        ],
+      };
+      
+      axiosInstance.get.resolves({
+        data: responseData,
+      });
+
+      const csin = 'testCSIN';
+      const periodType = 'historical';
+      const periodString = 'testPeriodString';
+      const timeSeriesName = 'testTimeSeriesName';
+      
+      const res = await navigator.getModelLTMDataPoint({
+        csin,
+        periodType,
+        periodString,
+        timeSeriesName,
+      });
+     
+      expect(res).to.equal(responseData.results[0].derived_data[0]?.value);
+      expect(axiosInstance.get.calledOnce).to.be.true;
+      expect(axiosInstance.get.firstCall.args[0]).to.equal(`equity-model-series/${csin}/equity-models/latest/${periodType}-periods/${periodString}/data-points/?time_series_name=${timeSeriesName}`);
+    });
+
+    it('should retrieve model data point when provided csin, periodType=forecast, periodString, and timeSeriesName', async () => {
+      const axiosInstance = {
+        get: sinon.stub(),
+      };
+
+      const mockedAxios = {
+        create: () => axiosInstance,
+      };
+
+      const MDSNavigatorProxy = proxyquire('../../MDSNavigator/MDSNavigator.js', {
+        axios: mockedAxios,
+      });
+      
+      const navigator = new MDSNavigatorProxy('mockToken');
+      
+      const responseData = {
+        results: [
+          {
+            derived_data: [
+              {
+                value: 'ltmTestData',
+              },
+            ],
+          },
+        ],
+      };
+      
+      axiosInstance.get.resolves({
+        data: responseData,
+      });
+
+      const csin = 'testCSIN';
+      const periodType = 'forecast';
+      const periodString = 'testPeriodString';
+      const timeSeriesName = 'testTimeSeriesName';
+      
+      const res = await navigator.getModelLTMDataPoint({
+        csin,
+        periodType,
+        periodString,
+        timeSeriesName,
+      });
+     
+      expect(res).to.equal(responseData.results[0].derived_data[0]?.value);
+      expect(axiosInstance.get.calledOnce).to.be.true;
+      expect(axiosInstance.get.firstCall.args[0]).to.equal(`equity-model-series/${csin}/equity-models/latest/${periodType}-periods/${periodString}/data-points/?time_series_name=${timeSeriesName}`);
+    });
+
+    it('should retrieve model data point when provided ticker, periodType=historical, periodString, and timeSeriesName', async () => {
+      const axiosInstance = {
+        get: sinon.stub(),
+      };
+
+      const mockedAxios = {
+        create: () => axiosInstance,
+      };
+
+      const MDSNavigatorProxy = proxyquire('../../MDSNavigator/MDSNavigator.js', {
+        axios: mockedAxios,
+      });
+      
+      const navigator = new MDSNavigatorProxy('mockToken');
+      
+      const responseData = {
+        results: [
+          {
+            derived_data: [
+              {
+                value: 'ltmTestData',
+              },
+            ],
+          },
+        ],
+      };
+      
+      axiosInstance.get.resolves({
+        data: responseData,
+      });
+
+      const ticker = 'testTicker';
+      const periodType = 'historical';
+      const periodString = 'testPeriodString';
+      const timeSeriesName = 'testTimeSeriesName';
+      
+      const res = await navigator.getModelLTMDataPoint({
+        ticker,
+        periodType,
+        periodString,
+        timeSeriesName,
+      });
+     
+      expect(res).to.equal(responseData.results[0].derived_data[0]?.value);
+      expect(axiosInstance.get.calledOnce).to.be.true;
+      expect(axiosInstance.get.firstCall.args[0]).to.equal(`equity-model-series/${ticker}/equity-models/latest/${periodType}-periods/${periodString}/data-points/?time_series_name=${timeSeriesName}`);
+    });
+
+    it('should retrieve model data point when provided ticker, periodType=forecast, periodString, and timeSeriesName', async () => {
+      const axiosInstance = {
+        get: sinon.stub(),
+      };
+
+      const mockedAxios = {
+        create: () => axiosInstance,
+      };
+
+      const MDSNavigatorProxy = proxyquire('../../MDSNavigator/MDSNavigator.js', {
+        axios: mockedAxios,
+      });
+      
+      const navigator = new MDSNavigatorProxy('mockToken');
+      
+      const responseData = {
+        results: [
+          {
+            derived_data: [
+              {
+                value: 'ltmTestData',
+              },
+            ],
+          },
+        ],
+      };
+      
+      axiosInstance.get.resolves({
+        data: responseData,
+      });
+
+      const ticker = 'testTicker';
+      const periodType = 'forecast';
+      const periodString = 'testPeriodString';
+      const timeSeriesName = 'testTimeSeriesName';
+      
+      const res = await navigator.getModelLTMDataPoint({
+        ticker,
+        periodType,
+        periodString,
+        timeSeriesName,
+      });
+     
+      expect(res).to.equal(responseData.results[0].derived_data[0]?.value);
+      expect(axiosInstance.get.calledOnce).to.be.true;
+      expect(axiosInstance.get.firstCall.args[0]).to.equal(`equity-model-series/${ticker}/equity-models/latest/${periodType}-periods/${periodString}/data-points/?time_series_name=${timeSeriesName}`);
     });
   });
 });
