@@ -66,8 +66,6 @@ describe('checkModelVersion', () => {
       csin: '12345',
     });
 
-    console.log(result);
-
     sinon.assert.calledOnce(axiosStub);
     sinon.assert.calledWith(axiosStub, {
       method: 'GET',
@@ -107,8 +105,6 @@ describe('checkModelVersion', () => {
     const result = await checkModelVersion('mdsToken', 'apiToken', {
       csin: '12345',
     });
-
-    console.log(result);
 
     sinon.assert.calledOnce(axiosStub);
     sinon.assert.calledWith(axiosStub, {
