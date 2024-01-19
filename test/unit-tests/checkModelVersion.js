@@ -38,10 +38,86 @@ describe('checkModelVersion', () => {
   });
 
   it('should return true if model version on database is the same as model version on MDS', async () => {
+    const navigatorStub = {
+      getLatestModelVersion: sinon.stub().resolves('mockedVersion'),
+    }
+    const axiosStub = sinon.stub();
 
+    const { checkModelVersion } = proxyquire('../../versionChecker/checkModelVersion.js', {
+      'axios': axiosStub,
+      '../MDSNavigator/MDSNavigator': sinon.stub().returns(navigatorStub),
+    });
+
+    const axiosResponseData = {
+      data: {
+        data: {
+          data: [
+            {
+              version: 'mockedVersion',
+            }
+          ]
+        }
+      }
+    }
+
+    axiosStub.resolves(axiosResponseData);
+
+    const result = await checkModelVersion('mdsToken', 'apiToken', {
+      csin: '12345',
+    });
+
+    console.log(result);
+
+    sinon.assert.calledOnce(axiosStub);
+    sinon.assert.calledWith(axiosStub, {
+      method: 'GET',
+      url: 'http://localhost:3000/api/v1/companies/?csin=12345',
+      headers: {
+        Authorization: 'Bearer apiToken'
+      }
+    });
+    expect(result).to.be.true;
   });
 
   it('should return false if model version on database is NOT the same as model version on MDS', async () => {
+    const navigatorStub = {
+      getLatestModelVersion: sinon.stub().resolves('mockedVersion1'),
+    }
+    const axiosStub = sinon.stub();
 
+    const { checkModelVersion } = proxyquire('../../versionChecker/checkModelVersion.js', {
+      'axios': axiosStub,
+      '../MDSNavigator/MDSNavigator': sinon.stub().returns(navigatorStub),
+    });
+
+    const axiosResponseData = {
+      data: {
+        data: {
+          data: [
+            {
+              version: 'mockedVersion2',
+            }
+          ]
+        }
+      }
+    }
+
+    axiosStub.resolves(axiosResponseData);
+
+    const result = await checkModelVersion('mdsToken', 'apiToken', {
+      csin: '12345',
+    });
+
+    console.log(result);
+
+    sinon.assert.calledOnce(axiosStub);
+    sinon.assert.calledWith(axiosStub, {
+      method: 'GET',
+      url: 'http://localhost:3000/api/v1/companies/?csin=12345',
+      headers: {
+        Authorization: 'Bearer apiToken'
+      }
+    });
+    expect(result).to.be.false;
   });
 });
