@@ -1,5 +1,7 @@
 const axios = require('axios');
 const { convertCSVToArray } = require('../utils/convertCSVToArray');
+const { isValidBloombergTicker } = require('../utils/isValidTicker');
+const { convertBloombergTickerToCanalystTicker } = require('../utils/convertBloombergTickerToCanalystTicker');
 
 class MDSNavigator {
   APIRootURL = 'https://mds.canalyst.com/api/';
@@ -21,13 +23,17 @@ class MDSNavigator {
 
   async getModelData(options) {
     options = options || {};
-    const { csin, ticker, dataType } = options;
+    const { csin, dataType } = options;
+    let { ticker } = options;
 
     if (!(dataType === 'historical' || dataType === 'forecast'))
       throw new Error('options.dataType must be \'historical\' or \'forecast\'.');
 
     if ( !csin && !ticker ) 
       throw new Error('One of options.csin or options.ticker must be defined.');
+
+    if (isValidBloombergTicker(ticker))
+      ticker = convertBloombergTickerToCanalystTicker(ticker);
 
     const queryString = `equity-model-series/${csin ? csin : ticker}/equity-models/latest/bulk-data/${dataType}-data.csv`;
 
@@ -43,10 +49,14 @@ class MDSNavigator {
 
   async getLatestModelVersion(options) {
     options = options || {};
-    const { csin, ticker } = options;
+    const { csin } = options;
+    let { ticker } = options;
 
     if ( !csin && !ticker ) 
       throw new Error('One of options.csin or options.ticker must be defined.');
+
+    if (isValidBloombergTicker(ticker))
+      ticker = convertBloombergTickerToCanalystTicker(ticker);
 
     const queryString = `equity-model-series/${csin ? csin : ticker}`;
 
@@ -62,7 +72,8 @@ class MDSNavigator {
   async getModelDataPoint(options) {
     options = options || {};
 
-    const { csin, ticker, periodType, periodString, timeSeriesName } = options;
+    const { csin, periodType, periodString, timeSeriesName } = options;
+    let { ticker } = options;
 
     if ( !csin && !ticker ) 
       throw new Error('One of options.csin or options.ticker must be defined.');
@@ -74,7 +85,10 @@ class MDSNavigator {
       throw new Error('options.periodString must be provided.');
 
     if (!timeSeriesName)
-      throw new Error('options.timeSeriesName must be provided.')
+      throw new Error('options.timeSeriesName must be provided.');
+
+    if (isValidBloombergTicker(ticker))
+      ticker = convertBloombergTickerToCanalystTicker(ticker);
 
     const queryString = `equity-model-series/${csin ? csin : ticker}/equity-models/latest/${periodType}-periods/${periodString}/data-points/?time_series_name=${timeSeriesName}`;
 
