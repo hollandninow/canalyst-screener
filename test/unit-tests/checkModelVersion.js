@@ -4,12 +4,12 @@ const { expect } = require('chai');
 const { checkModelVersion } = require('../../versionChecker/checkModelVersion');
 
 describe('checkModelVersion', () => {
-  it('should throw an error if neither options.csin nor options.canalystTicker are provided', async () => {
+  it('should throw an error if neither options.csin nor options.ticker are provided', async () => {
     try {
       await checkModelVersion( 'mdsToken', 'apiToken');
     } catch (err) {
       expect(err).to.be.an('Error');
-      expect(err.message).to.be.equal('One of options.csin or options.canalystTicker must be defined.');
+      expect(err.message).to.be.equal('One of options.csin or options.ticker must be defined.');
     }
   });
 
@@ -17,7 +17,7 @@ describe('checkModelVersion', () => {
     try {
       await checkModelVersion( undefined, 'apiToken', {
         csin: 'test',
-        canalystTicker: 'test',
+        ticker: 'TEST_US',
       });
     } catch (err) {
       expect(err).to.be.an('Error');
@@ -29,7 +29,7 @@ describe('checkModelVersion', () => {
     try {
       await checkModelVersion( 'mdsToken', undefined, {
         csin: 'test',
-        canalystTicker: 'test',
+        ticker: 'TEST_US',
       });
     } catch (err) {
       expect(err).to.be.an('Error');
