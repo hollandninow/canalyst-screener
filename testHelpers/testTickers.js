@@ -6,6 +6,7 @@ exports.validCanalystTickerArray = [
  'AAPL_US',
  'C_US',
  'BMO_CN',
+ 'ABCDE_FG',
 ];
 
 exports.invalidCanalystTickerArray = [
@@ -13,7 +14,6 @@ exports.invalidCanalystTickerArray = [
   ' AA',
   '',
   ' ',
-  'ABCDE_FG',
   'abcd_US',
   'ABCD_us',
   'abcd_us',
@@ -36,6 +36,7 @@ exports.validBloombergTickerArray = [
   'AAPL US',
   'C US',
   'BMO CN',
+  'ABCDE AB'
 ];
 
 exports.invalidBloombergTickerArray = [
@@ -43,8 +44,8 @@ exports.invalidBloombergTickerArray = [
   ' AA',
   '',
   ' ',
-  'ABCDE_FG',
   'abcd_US',
+  'ABCDE_FG',
   'ABCD_us',
   'abcd_us',
   '1234',
