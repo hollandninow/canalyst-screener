@@ -7,6 +7,8 @@ exports.validCanalystTickerArray = [
  'C_US',
  'BMO_CN',
  'ABCDE_FG',
+ '8096_JP',
+ 'DB1_GR'
 ];
 
 exports.invalidCanalystTickerArray = [
@@ -25,6 +27,8 @@ exports.invalidCanalystTickerArray = [
   'AB CD',
   'ABC DE',
   'ABCD EF',
+  '8096 JP',
+  'DB1 GR'
 ];
 
 exports.validBloombergTickerArray = [
