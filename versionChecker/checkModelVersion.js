@@ -29,8 +29,6 @@ exports.checkModelVersion = async function ( mdsToken, apiToken, options ) {
   if (!ticker && csin)
     url = `http://localhost:3000/api/v1/companies/?csin=${csin}`
 
-  if (ticker && !csin)
-    throw new Error('Not valid ticker format. Must be 1-4 capital letters followed by either a space or underscore, then two capital letters. e.g. "AAPL_US" or "AAPL US"');
 
   const res = await axios({
     method: 'GET',
