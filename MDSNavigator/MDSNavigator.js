@@ -47,7 +47,7 @@ class MDSNavigator {
     }
   }
 
-  async getLatestModelVersion(options) {
+  async getEquityModelSeries(options) {
     options = options || {};
     const { csin } = options;
     let { ticker } = options;
@@ -63,7 +63,17 @@ class MDSNavigator {
     try {
       const res = await this.instance.get(queryString);
 
-      return res.data.latest_equity_model.model_version.name;
+      return res.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async getLatestModelVersion(options) {
+    try {
+      const res = await this.getEquityModelSeries(options);
+
+      return res.latest_equity_model.model_version.name;
     } catch (err) {
       throw err;
     }
