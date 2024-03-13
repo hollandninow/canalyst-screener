@@ -200,6 +200,94 @@ describe('MDSCompanyNavigator', () => {
     });
   });
 
+  describe('getEquityModelSeries', () => {
+    it('should throw an error when both options.csin or options.ticker are not defined', async () => {
+      const nav = new MDSNavigator('test');
+
+      try {
+        await nav.getEquityModelSeries({
+          csin: undefined,
+          ticker: undefined,
+        });
+      } catch (err) {
+        expect(err).to.be.an('Error');
+        expect(err.message).to.be.equal('One of options.csin or options.ticker must be defined.');
+      }
+    });
+
+    it('should retrieve model version when provided options.ticker', async () => {
+      const axiosInstance = {
+        get: sinon.stub(),
+      };
+
+      const mockedAxios = {
+        create: () => axiosInstance,
+      };
+
+      const MDSNavigatorProxy = proxyquire('../../MDSNavigator/MDSNavigator.js', {
+        axios: mockedAxios,
+      });
+
+      
+      const navigator = new MDSNavigatorProxy('mockToken');
+      
+      const responseData = {
+        data: 'data'
+      };
+     
+      axiosInstance.get.resolves({
+        data: responseData,
+      });
+
+      const ticker = 'testTicker';
+      
+      const res = await navigator.getEquityModelSeries({
+        ticker,
+      });
+      
+      expect(res).to.equal(responseData);
+      expect(axiosInstance.get.calledOnce).to.be.true;
+      expect(axiosInstance.get.firstCall.args[0]).to.equal(`equity-model-series/${ticker}`);
+    });
+
+    it('should retrieve model version when provided options.csin', async () => {
+      const axiosInstance = {
+        get: sinon.stub(),
+      };
+
+      const mockedAxios = {
+        create: () => axiosInstance,
+      };
+
+      const MDSNavigatorProxy = proxyquire('../../MDSNavigator/MDSNavigator.js', {
+        axios: mockedAxios,
+      });
+
+      
+      const navigator = new MDSNavigatorProxy('mockToken');
+      
+      const responseData = {
+        data: 'data'
+      };
+      
+      axiosInstance.get.resolves({
+        data: responseData,
+      });
+
+      const csin = 'testCSIN';
+      
+      const res = await navigator.getEquityModelSeries({
+        csin,
+      });
+
+      console.log(res);
+      
+      expect(res).to.equal(responseData);
+      expect(axiosInstance.get.calledOnce).to.be.true;
+      expect(axiosInstance.get.firstCall.args[0]).to.equal(`equity-model-series/${csin}`);
+    });
+  });
+
   describe('getLatestModelVersion', () => {
     it('should throw an error when both options.csin or options.ticker are not defined', async () => {
       const nav = new MDSNavigator('test');
